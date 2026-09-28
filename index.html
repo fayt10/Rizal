@@ -1463,6 +1463,23 @@ h3,
   }
   .nav button{ flex:0 0 auto; }
 }
+
+/* Ilustrado profile cards */
+.people{grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+.person{display:flex;gap:16px;padding:16px;font-family:"Source Serif 4",Georgia,serif;font-size:1rem;align-items:flex-start}
+.person-photo{position:relative;flex:0 0 118px;height:150px;background:var(--paper2);border:1px solid var(--line);overflow:hidden}
+.person-photo .initials{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:700 1.9rem "Cormorant Garamond",serif;color:var(--seal);opacity:.7}
+.person-photo img{position:relative;width:100%;height:100%;object-fit:cover;object-position:top;cursor:zoom-in;display:none}
+.person-photo img.loaded{display:block}
+.person-body{min-width:0}
+.person-body h4{font:700 1.5rem/1.1 "Cormorant Garamond",serif;margin:0 0 3px}
+.person-role{font-size:.78rem;color:var(--seal);font-style:italic;margin-bottom:8px}
+.person-body p{margin:0 0 10px;font-size:.9rem;line-height:1.55;color:var(--soft)}
+.person-facts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.person-facts span{font-size:.72rem;background:var(--paper2);padding:3px 9px;border-radius:999px;color:var(--ink)}
+.person-body a{font-size:.8rem;color:var(--indigo);text-underline-offset:3px}
+@media(max-width:1000px){.people{grid-template-columns:1fr}}
+@media(max-width:480px){.person{flex-direction:column}.person-photo{flex:none;width:100%;height:240px}}
 </style>
 </head>
 
@@ -1522,7 +1539,7 @@ h3,
       </div>
 
       <h1>
-        An Interactive Exploration of the 19th century Philippine Economy, Society, Education, and Reform.
+        An interactive exploration of the 19th century Philippine economy, society, education, and reform.
       </h1>
 
     </div>
@@ -2308,25 +2325,65 @@ h3,
     </p>
 
 
-    <div class="people">
+   <div class="people">
 
-      <div class="person">
-        Jose Rizal
-      </div>
-
-      <div class="person">
-        Marcelo H. del Pilar
-      </div>
-
-      <div class="person">
-        Graciano Lopez Jaena
-      </div>
-
-      <div class="person">
-        Mariano Ponce
-      </div>
-
+  <article class="person">
+    <div class="person-photo">
+      <span class="initials">JR</span>
+      <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Portrait_of_Jos%C3%A9_Rizal_(1883).jpg?width=500" alt="Portrait of José Rizal, 1883">
     </div>
+    <div class="person-body">
+      <h4>Jose Rizal</h4>
+      <div class="person-role">Patriot · Physician · Writer · Reformer</div>
+      <p>A Filipino patriot, physician, writer, and reformer who inspired the Philippine nationalist movement. He advocated peaceful political reform under Spanish rule through his writings. Executed in Manila, he became a national hero and an enduring symbol of Filipino nationalism.</p>
+      <div class="person-facts"><span>Born: June 19, 1861 · Calamba</span><span>Died: Dec 30, 1896 · Manila</span></div>
+      <a href="https://www.britannica.com/biography/Jose-Rizal" target="_blank" rel="noopener">Source: Britannica →</a>
+    </div>
+  </article>
+
+  <article class="person">
+    <div class="person-photo">
+      <span class="initials">MP</span>
+      <img data-wiki="Marcelo_H._del_Pilar" alt="Portrait of Marcelo H. del Pilar">
+    </div>
+    <div class="person-body">
+      <h4>Marcelo H. del Pilar</h4>
+      <div class="person-role">Political analyst of the Filipino colony in Spain</div>
+      <p>In 1882 he founded the nationalistic newspaper <em>Diariong Tagalog</em>. In December 1889 he became editor of <em>La Solidaridad</em> and the moving spirit behind the Propaganda Movement.</p>
+      <div class="person-facts"><span>Born: Aug 30, 1850 · Kupang, Bulacan</span><span>Died: July 4, 1896</span></div>
+      <a href="https://hendrixoutdoors.wordpress.com/?s=MARCELO+H+DEL+PILAR" target="_blank" rel="noopener">Source: Hendrix Outdoors →</a>
+    </div>
+  </article>
+
+  <article class="person">
+    <div class="person-photo">
+      <span class="initials">GJ</span>
+      <img data-wiki="Graciano_López_Jaena" alt="Portrait of Graciano López Jaena">
+    </div>
+    <div class="person-body">
+      <h4>Graciano Lopez Jaena</h4>
+      <div class="person-role">Orator · Journalist · Revolutionary from Iloilo</div>
+      <p>Founder and first editor of <em>La Solidaridad</em>, the main mouthpiece of the Propaganda Movement. Known for fiery speeches and the satire <em>Fray Botod</em>, he advocated press freedom, educational reform, and equal rights for Filipinos.</p>
+      <div class="person-facts"><span>Home province: Iloilo</span><span>Work: <em>Fray Botod</em></span></div>
+      <a href="https://kahimyang.com/articles/3378/graciano-lopez-jaena-the-birth-of-filipino-reform" target="_blank" rel="noopener">Source: Kahimyang →</a>
+    </div>
+  </article>
+
+  <article class="person">
+    <div class="person-photo">
+      <span class="initials">MPo</span>
+      <img data-wiki="Mariano_Ponce" alt="Portrait of Mariano Ponce">
+    </div>
+    <div class="person-body">
+      <h4>Mariano Ponce</h4>
+      <div class="person-role">Physician · Historian · Researcher</div>
+      <p>Organizational manager and secretary of the Propaganda Movement. He managed the publication of <em>La Solidaridad</em> alongside Del Pilar and wrote on history and politics under pen names such as <em>Kalipulako</em>. He later served as a diplomat for the First Philippine Republic, securing support in East Asia.</p>
+      <div class="person-facts"><span>Pen name: Kalipulako</span><span>Role: Diplomat, First Republic</span></div>
+      <a href="https://bulacan.gov.ph/general-info/mariano-ponce/" target="_blank" rel="noopener">Source: Bulacan.gov.ph →</a>
+    </div>
+  </article>
+
+</div>
 
 
     <p style="margin-top:18px">
@@ -3880,6 +3937,26 @@ function renderCombinedQuiz(){
 }
 renderCombinedQuiz();
 
+/* Ilustrado portraits */
+(function(){
+  const openModal = img => {
+    modalBody.innerHTML = `<img src="${img.src}" alt="${img.alt}" style="width:100%;max-height:65vh;object-fit:contain"><p style="margin-bottom:0;color:var(--soft);font-style:italic">${img.alt}</p>`;
+    modal.classList.add('show');
+  };
+  document.querySelectorAll('.person-photo img').forEach(async img=>{
+    img.addEventListener('click',()=>openModal(img));
+    img.addEventListener('load',()=>img.classList.add('loaded'));
+    img.addEventListener('error',()=>img.classList.remove('loaded'));
+    if(img.dataset.wiki){
+      try{
+        const r = await fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+img.dataset.wiki);
+        const d = await r.json();
+        const src = d.thumbnail && d.thumbnail.source;
+        if(src) img.src = src.replace(/\/\d+px-/,'/500px-');
+      }catch(e){}
+    }
+  });
+})();
 </script>
 
 </body>
