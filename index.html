@@ -1480,6 +1480,30 @@ h3,
 .person-body a{font-size:.8rem;color:var(--indigo);text-underline-offset:3px}
 @media(max-width:1000px){.people{grid-template-columns:1fr}}
 @media(max-width:480px){.person{flex-direction:column}.person-photo{flex:none;width:100%;height:240px}}
+
+/* Life page: indented + justified paragraphs */
+#life .card p,
+#life .detail p{
+  text-align:justify;
+  text-indent:2em;
+  hyphens:auto;
+  margin-bottom:.9em;
+}
+#life .card p:last-child,
+#life .detail p:last-child{
+  margin-bottom:0;
+}
+/* keep the ilustrado profile cards clean and left-aligned */
+#life .person-body p{
+  text-align:left;
+  text-indent:0;
+  hyphens:none;
+  margin:0 0 10px;
+}
+@media(max-width:560px){
+  #life .card p,
+  #life .detail p{ text-indent:1.4em; }
+}
 </style>
 </head>
 
@@ -2593,6 +2617,56 @@ h3,
 
   </div>
 
+  <article class="card" style="margin-top:20px">
+    <div class="kicker">From grievance to program</div>
+    <h3>Why these demands, and why then?</h3>
+    <p style="text-align:justify;text-indent:2em;hyphens:auto">
+      The seven demands did not appear out of nowhere. Each one answers a tension
+      the earlier pages describe: a colony whose wealth, schooling, and
+      professions were changing, but whose laws and offices still sorted people by
+      birth and ancestry. The generation that made these demands was the one the
+      economy had produced: educated, often propertied, and increasingly aware
+      that its status did not match its abilities.
+    </p>
+    <p style="margin-top:10px;text-align:justify;text-indent:2em;hyphens:auto">
+      The executions of 1872 gave that awareness a shared grievance. Most
+      reformers were seeking a fairer place inside the Spanish system, not
+      separation from it. The Propaganda Movement argued for
+      assimilation and equal rights through writing, petition, and public
+      opinion.
+    </p>
+  </article>
+
+  <article class="card" style="margin-top:20px">
+    <div class="kicker">Connecting the chapter</div>
+    <h3>Where each demand comes from</h3>
+    <div class="grid" style="grid-template-columns:1fr 1fr;margin-top:14px">
+      <div class="card"><b>Equality with Spaniards</b><p style="margin-top:6px">Answers the formal hierarchy of peninsulares, insulares, mestizos, and indios, which no longer matched real wealth and education.</p></div>
+      <div class="card"><b>Representation in the Cortes</b><p style="margin-top:6px">The colony's growing economic weight had no voice in the government that taxed and ruled it.</p></div>
+      <div class="card"><b>Secularization of parishes</b><p style="margin-top:6px">Rooted in the dispute over whether Filipino secular priests could hold parishes held by the Spanish religious orders.</p></div>
+      <div class="card"><b>Freedom of speech</b><p style="margin-top:6px">Reformers needed open debate to publish their case, and censorship limited it.</p></div>
+      <div class="card"><b>Educational reforms</b><p style="margin-top:6px">Builds on the 1836 and 1863 school measures and on the schooling that produced the ilustrados themselves.</p></div>
+      <div class="card"><b>Fewer official abuses</b><p style="margin-top:6px">Responds to tribute, forced labor (<em>polo</em>), land disputes, and abuses by local officials.</p></div>
+      <div class="card"><b>Greater political and social rights</b><p style="margin-top:6px">The general claim behind all the others: rights should follow merit and membership, not colonial classification.</p></div>
+    </div>
+  </article>
+
+  <article class="card" style="margin-top:20px">
+    <div class="kicker">The road after 1872</div>
+    <h3>From petition to print</h3>
+    <div class="flow">
+      <div class="step"><b>1872</b>The Cavite mutiny and the executions of Gómez, Burgos, and Zamora turn the secularization dispute into a defining grievance.</div>
+      <div class="step"><b>1880s</b>Filipinos studying in Spain, including Rizal, del Pilar, and López Jaena, form a reform-minded community in Madrid and Barcelona.</div>
+      <div class="step"><b>1887–89</b>Rizal publishes <em>Noli Me Tangere</em> (1887), and <em>La Solidaridad</em> begins publication in 1889, later edited by del Pilar.</div>
+      <div class="step"><b>1890s</b>Rizal's <em>El Filibusterismo</em> (1891) and the founding of La Liga Filipina (1892) carry reform back to the Philippines.</div>
+    </div>
+    <p style="margin-top:18px;text-align:justify;text-indent:2em;hyphens:auto">
+      The Propaganda Movement did not win its main demands from Spain. But it built a
+      shared language of rights and identity, and a network of educated Filipinos,
+      that later movements would draw on.
+    </p>
+  </article>
+
 
   <article
     class="card"
@@ -2656,7 +2730,11 @@ h3,
 <article class="reference-card"><span class="reference-type">Biographical source</span><h3>Graciano López Jaena — Kahimyang Project</h3><p><a href="https://kahimyang.com/articles/3378/graciano-lopez-jaena-the-birth-of-filipino-reform" target="_blank" rel="noopener">Graciano Lopez Jaena: The Birth of Filipino Reform</a> — used for his profile, <em>Fray Botod</em>, and the founding of <em>La Solidaridad</em>.</p></article>
 <article class="reference-card"><span class="reference-type">Institutional source</span><h3>Bulacan Provincial Government</h3><p><a href="https://bulacan.gov.ph/general-info/mariano-ponce/" target="_blank" rel="noopener">Mariano Ponce</a> — used for his profile, pen names, and diplomatic work for the First Philippine Republic.</p></article>
 <article class="reference-card"><span class="reference-type">Portrait sources</span><h3>Wikimedia Commons &amp; Wikipedia</h3><p>Ilustrado portraits are loaded from public sources: Rizal's 1883 portrait from Wikimedia Commons, and the portraits of del Pilar, López Jaena, and Ponce from their Wikipedia articles.</p><div class="reference-links"><a href="https://commons.wikimedia.org/wiki/File:Portrait_of_Jos%C3%A9_Rizal_(1883).jpg" target="_blank" rel="noopener">Rizal portrait</a><a href="https://en.wikipedia.org/wiki/Marcelo_H._del_Pilar" target="_blank" rel="noopener">del Pilar</a><a href="https://en.wikipedia.org/wiki/Graciano_L%C3%B3pez_Jaena" target="_blank" rel="noopener">López Jaena</a><a href="https://en.wikipedia.org/wiki/Mariano_Ponce" target="_blank" rel="noopener">Ponce</a></div></article>
-  </div>
+ <article class="reference-card"><span class="reference-type">Encyclopedic source</span><h3>Propaganda Movement — Britannica</h3><p><a href="https://britannica.com/topic/Propaganda-Movement" target="_blank" rel="noopener">Propaganda Movement</a> — used for the "Where it was heading" page: the 1872 Cavite revolt and executions, the founding of <em>La Solidaridad</em>, and the movement's push for religious and government reform.</p></article>
+<article class="reference-card"><span class="reference-type">Encyclopedic source</span><h3>La Solidaridad — Britannica</h3><p><a href="https://www.britannica.com/topic/La-Solidaridad" target="_blank" rel="noopener">La Solidaridad</a> — used for the newspaper's 1889 launch in Barcelona, its role as the movement's voice, and the reformers' aim of assimilation and representation in the Cortes rather than independence.</p></article>
+
+<article class="reference-card"><span class="reference-type">Historical source</span><h3>La Solidaridad — Wikipedia</h3><p><a href="https://en.wikipedia.org/wiki/La_Solidaridad" target="_blank" rel="noopener">La Solidaridad</a> — used for its editors (López Jaena, then del Pilar) and the reform aspirations it published, including Cortes representation.</p></article>
+</div>
   <div class="reference-note"><strong>Image note</strong><span>The site uses historical or archival visual material rather than AI-generated historical scenes. Modern photographs are used only where they document surviving historical places or objects.</span></div>
 </section>
 
