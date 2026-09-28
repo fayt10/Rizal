@@ -1,0 +1,3855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Ledger of a Changing Colony · Interactive Chapter 5</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+  rel="stylesheet"
+>
+
+<style>
+
+:root{
+  --paper:#eee5d0;
+  --paper2:#e3d5b7;
+  --paper3:#f7f1e3;
+  --ink:#241c14;
+  --soft:#594b3a;
+  --indigo:#33456e;
+  --tobacco:#8b5a2b;
+  --gold:#a9812e;
+  --seal:#8c3629;
+  --line:rgba(36,28,20,.2);
+  --shadow:0 18px 50px rgba(36,28,20,.13)
+}
+
+/* Dark theme */
+:root[data-theme="dark"]{
+  --paper:#171512;
+  --paper2:#25211b;
+  --paper3:#201d18;
+  --ink:#f2eadb;
+  --soft:#c8bca8;
+  --indigo:#9eafd9;
+  --tobacco:#c9955a;
+  --gold:#d8b86a;
+  --seal:#d47a69;
+  --line:rgba(242,234,219,.18);
+  --shadow:0 18px 50px rgba(0,0,0,.32);
+  color-scheme:dark;
+}
+
+html{
+  transition:background-color .25s ease,color .25s ease;
+}
+
+*{
+  box-sizing:border-box
+}
+
+html,
+body{
+  margin:0;
+  min-height:100%;
+  background:var(--paper);
+  color:var(--ink)
+}
+
+body{
+  font-family:"Source Serif 4",Georgia,serif;
+  font-size:17px;
+  line-height:1.65;
+  background-image:
+    radial-gradient(
+      rgba(36,28,20,.035) 1px,
+      transparent 1px
+    );
+  background-size:4px 4px
+}
+
+button,
+a{
+  font:inherit
+}
+
+button{
+  cursor:pointer
+}
+
+img{
+  display:block;
+  max-width:100%
+}
+
+
+/* =========================
+   TOP NAVIGATION
+========================= */
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(238,229,208,.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line)
+}
+
+.topbar-inner{
+  max-width:1180px;
+  margin:auto;
+  padding:18px 24px;
+  display:flex;
+  align-items:center;
+  gap:24px;
+  min-width:0;
+}
+
+.brand{
+  flex:0 0 auto;
+  min-width:max-content;
+}
+
+.brand{
+  border:0;
+  background:none;
+  color:var(--ink);
+  text-align:left;
+  padding:0
+}
+
+.brand small{
+  display:block;
+  font-size:.72rem;
+  color:var(--seal);
+  font-style:italic
+}
+
+.brand strong{
+  font:600 1.48rem "Cormorant Garamond",serif
+}
+
+.nav{
+  display:flex;
+  flex:1 1 auto;
+  min-width:0;
+  gap:7px;
+  overflow:visible;
+  scrollbar-width:none;
+  align-items:center;
+}
+
+.nav::-webkit-scrollbar{
+  display:none
+}
+
+.nav button{
+  white-space:nowrap;
+  border:1px solid transparent;
+  background:transparent;
+  color:var(--soft);
+  padding:8px 11px;
+  border-radius:999px;
+  font-size:.86rem
+}
+
+.nav button:hover,
+.nav button.active{
+  background:var(--ink);
+  color:var(--paper3)
+}
+
+.progress{
+  height:3px;
+  background:var(--paper2)
+}
+
+.progress i{
+  display:block;
+  height:100%;
+  width:20%;
+  background:var(--seal);
+  transition:width .35s ease
+}
+
+
+/* =========================
+   GENERAL
+========================= */
+
+main{
+  max-width:1180px;
+  margin:auto;
+  padding:30px 24px 80px
+}
+
+.page{
+  display:none;
+  animation:pageIn .35s ease
+}
+
+.page.active{
+  display:block;
+  opacity:1;
+  visibility:visible;
+  animation:pageIn .22s ease both;
+}
+
+@keyframes pageIn{
+  from{
+    opacity:1;
+    transform:translateY(6px)
+  }
+  to{
+    opacity:1;
+    transform:none
+  }
+}
+
+.hero{
+  min-height:calc(100vh - 105px);
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  grid-template-rows:auto auto;
+  align-items:start;
+  column-gap:34px;
+  row-gap:14px;
+  height:auto;
+  max-height:none;
+  padding:8px 0 24px;
+  overflow:visible;
+}
+
+.hero-heading{
+  min-width:0;
+  align-self:start;
+  padding-top:0;
+}
+
+.hero .visual{
+  align-self:start;
+  justify-self:stretch;
+  width:100%;
+  max-width:none;
+  margin-top:0;
+  height:350px;
+  min-height:0;
+}
+
+.hero-intro-row{
+  grid-column:1 / -1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:0;
+  margin:0;
+  text-align:left;
+}
+
+.eyebrow{
+  color:var(--seal);
+  font-style:italic;
+  font-size:.9rem
+}
+
+h1,
+h2,
+h3,
+.display{
+  font-family:"Cormorant Garamond",Georgia,serif;
+  line-height:.98;
+  margin:0
+}
+
+.hero h1{
+  font-size:clamp(2.85rem,4.25vw,4.25rem);
+  line-height:.91;
+  max-width:650px;
+  margin:8px 0 0;
+  letter-spacing:-.018em;
+}
+
+.hero p{
+  font-size:1rem;
+  line-height:1.5;
+  color:var(--soft);
+  width:min(100%,760px);
+  max-width:760px;
+  margin:0 auto;
+}
+
+.hero-intro-row .cta-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:8px 0 0;
+  flex-shrink:0;
+}
+
+.cta-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:20px
+}
+
+.btn{
+  border:1px solid var(--ink);
+  background:var(--ink);
+  color:var(--paper3);
+  padding:11px 18px;
+  border-radius:3px
+}
+
+.btn.alt{
+  background:transparent;
+  color:var(--ink)
+}
+
+
+/* =========================
+   IMAGES
+========================= */
+
+.visual{
+  position:relative;
+  min-height:320px;
+  height:350px;
+  max-height:350px;
+  border:1px solid var(--line);
+  background:var(--paper2);
+  box-shadow:var(--shadow);
+  overflow:hidden
+}
+
+.visual img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:.83;
+  filter:sepia(.18);
+  cursor:zoom-in
+}
+
+.visual:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,245,220,.12),
+      rgba(36,28,20,.28)
+    )
+}
+
+.visual-caption{
+  position:absolute;
+  left:20px;
+  bottom:18px;
+  z-index:2;
+  color:white;
+  font-style:italic;
+  font-size:.85rem;
+  text-shadow:0 2px 10px #241c14
+}
+
+:root[data-theme="dark"] .visual img{
+  opacity:.72;
+  filter:sepia(.12) brightness(.82);
+}
+
+:root[data-theme="dark"] .visual:after{
+  background:linear-gradient(135deg,rgba(255,245,220,.04),rgba(0,0,0,.42));
+}
+
+
+/* Topic detail image + text layout */
+.topic-content-split{
+  display:block;
+}
+
+/* Editorial layout: image floats at the top of the reading column,
+   with body text wrapping around it, then continuing full width. */
+.topic-article{
+  display:block;
+  background:transparent;
+  border:0;
+  padding:0;
+  box-shadow:none;
+}
+
+.topic-article::after{
+  content:"";
+  display:table;
+  clear:both;
+}
+
+.topic-float-visual{
+  float:left;
+  width:380px;
+  max-width:100%;
+  margin:0 22px 14px 0;
+  min-height:0 !important;
+  height:auto;
+  box-sizing:border-box;
+  background:rgba(247,241,227,.7);
+  border:1px solid var(--line);
+  padding:12px;
+  box-shadow:0 8px 24px rgba(36,28,20,.05);
+}
+
+.topic-visual{
+  min-height:0 !important;
+  height:auto;
+  position:relative;
+}
+
+.topic-image-gallery{
+  position:relative;
+  z-index:1;
+  width:100%;
+  height:auto;
+  min-height:0;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  padding:0;
+  box-sizing:border-box;
+  align-items:start;
+}
+
+.topic-image-gallery.has-two{
+  grid-template-columns:1fr 1fr;
+}
+
+.topic-image-gallery img{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:620px;
+  object-fit:contain !important;
+  background:var(--paper3);
+  border:1px solid var(--line);
+  box-shadow:0 8px 20px rgba(36,28,20,.12);
+  opacity:1 !important;
+  filter:none !important;
+  cursor:zoom-in;
+}
+
+.topic-float-visual .visual-caption{
+  left:14px;
+  bottom:14px;
+}
+
+#topicViewBody{
+  background:rgba(247,241,227,.7);
+  border:1px solid var(--line);
+  padding:20px;
+  box-shadow:0 8px 24px rgba(36,28,20,.05);
+  box-sizing:border-box;
+}
+
+#topicViewBody > p{
+  text-align:justify;
+  text-indent:2em;
+  margin:0 0 1.05em;
+  font-size:1.14rem; 
+  line-height:1.8;
+  hyphens:auto;
+}
+
+#topicViewBody > p + p{
+  margin-top:.15em;
+}
+
+/* =========================
+   PAGE HEAD
+========================= */
+
+.page-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:20px;
+  border-bottom:1px solid var(--line);
+  padding:25px 0 18px;
+  margin-bottom:26px
+}
+
+.page-head h2{
+  font-size:clamp(2.5rem,5vw,4.4rem)
+}
+
+.page-head p{
+  max-width:55ch;
+  color:var(--soft);
+  margin:0
+}
+
+.kicker{
+  color:var(--gold);
+  font-size:.78rem;
+  text-transform:uppercase;
+  letter-spacing:.13em
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px
+}
+
+.card{
+  background:rgba(247,241,227,.7);
+  border:1px solid var(--line);
+  padding:20px;
+  box-shadow:0 8px 24px rgba(36,28,20,.05)
+}
+
+.card:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--shadow);
+  transition:.2s
+}
+
+.card h3{
+  font-size:1.65rem;
+  margin:8px 0
+}
+
+.card p{
+  margin:0;
+  color:var(--soft);
+  font-size:.93rem
+}
+
+.card .num{
+  font-family:"Cormorant Garamond";
+  font-weight:700;
+  color:var(--seal)
+}
+
+.image-card{
+  padding:0;
+  overflow:hidden
+}
+
+.image-card img{
+  height:190px;
+  width:100%;
+  object-fit:cover;
+  cursor:zoom-in
+}
+
+.image-card .inside{
+  padding:18px
+}
+
+
+/* =========================
+   TIMELINE
+========================= */
+
+.timeline{
+  position:relative;
+  padding:18px 0 10px
+}
+
+.timeline-line{
+  position:absolute;
+  left:22px;
+  top:0;
+  bottom:0;
+  width:1px;
+  background:var(--line)
+}
+
+.event{
+  position:relative;
+  display:grid;
+  grid-template-columns:54px 1fr;
+  gap:18px;
+  margin:0 0 16px
+}
+
+.dot{
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  border:3px solid var(--seal);
+  background:var(--paper);
+  margin:5px auto;
+  z-index:2
+}
+
+.event button{
+  width:100%;
+  text-align:left;
+  border:1px solid var(--line);
+  background:var(--paper3);
+  padding:16px 18px
+}
+
+.event button:hover{
+  border-color:var(--seal)
+}
+
+.year{
+  font-family:"Cormorant Garamond";
+  font-size:1.5rem;
+  color:var(--indigo);
+  font-weight:700
+}
+
+.event small{
+  color:var(--soft)
+}
+
+.detail{
+  margin-top:20px;
+  background:var(--paper2);
+  border-left:4px solid var(--seal);
+  padding:22px;
+  min-height:100px
+}
+
+.detail h3{
+  font-size:1.8rem;
+  margin-bottom:7px
+}
+
+.detail-media{
+  display:grid;
+  grid-template-columns:270px 1fr;
+  gap:24px;
+  align-items:start
+}
+
+.detail-media img{
+  width:270px;
+  height:270px;
+  object-fit:contain;
+  background:var(--paper3);
+  border:1px solid var(--line);
+  cursor:zoom-in;
+  display:block
+}
+
+@media (max-width: 820px){
+  .detail-media{
+    grid-template-columns:210px 1fr;
+    gap:18px
+  }
+
+  .detail-media img{
+    width:210px;
+    height:240px
+  }
+}
+
+@media (max-width: 620px){
+  .detail-media{
+    grid-template-columns:1fr
+  }
+
+  .detail-media img{
+    width:100%;
+    height:280px
+  }
+}
+
+.image-caption{
+  display:block;
+  margin-top:14px;
+  color:var(--soft);
+  font-size:.82rem;
+  line-height:1.45
+}
+
+.detail-media img:hover{
+  opacity:.92
+}
+
+
+/* =========================
+   HORIZONTAL TIMELINE
+========================= */
+
+.htimeline{
+  position:relative;
+  overflow-x:auto;
+  overflow-y:hidden;
+  border:1px solid var(--line);
+  background:var(--paper3);
+  padding:38px 22px 20px;
+  scroll-behavior:smooth
+}
+
+.htimeline-scroll{
+  position:relative;
+  height:118px;
+  min-width:1700px
+}
+
+.htimeline-track{
+  position:absolute;
+  left:0;
+  right:0;
+  top:58px;
+  height:1px;
+  background:var(--line)
+}
+
+.htimeline-fill{
+  position:absolute;
+  left:0;
+  top:0;
+  height:100%;
+  width:0%;
+  background:var(--tobacco);
+  opacity:.55;
+  transition:width .35s ease
+}
+
+.htimeline-node{
+  position:absolute;
+  top:51px;
+  width:13px;
+  height:13px;
+  border-radius:50%;
+  border:2px solid var(--soft);
+  background:var(--paper3);
+  transform:translate(-50%,0);
+  cursor:pointer;
+  z-index:2;
+  padding:0;
+  opacity:.75;
+  transition:transform .15s ease,background .15s ease,opacity .15s ease
+}
+
+.htimeline-node:hover{
+  opacity:1;
+  transform:translate(-50%,0) scale(1.12)
+}
+
+.htimeline-node.active{
+  background:var(--seal);
+  border-color:var(--seal);
+  opacity:1;
+  transform:translate(-50%,0) scale(1.2)
+}
+
+.htimeline-year{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:"Cormorant Garamond";
+  font-weight:600;
+  font-size:1rem;
+  color:var(--soft);
+  white-space:nowrap;
+  pointer-events:none;
+  transition:color .15s ease
+}
+
+.htimeline-node.active .htimeline-year{
+  color:var(--seal);
+  font-weight:700
+}
+
+.htimeline-label{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:.66rem;
+  color:var(--soft);
+  opacity:.75;
+  white-space:nowrap;
+  max-width:150px;
+  text-align:center;
+  pointer-events:none
+}
+
+.htimeline-node.pos-up .htimeline-year{ bottom:26px }
+.htimeline-node.pos-up .htimeline-label{ bottom:9px }
+.htimeline-node.pos-down .htimeline-year{ top:26px }
+.htimeline-node.pos-down .htimeline-label{ top:46px }
+
+.htimeline-controls{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  margin-top:14px
+}
+
+.htimeline-arrow{
+  width:36px;
+  height:36px;
+  flex:0 0 auto;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:var(--paper3);
+  color:var(--ink);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  transition:background .2s,transform .2s
+}
+
+.htimeline-arrow:hover{
+  background:var(--paper2);
+  transform:scale(1.07)
+}
+
+.htimeline-arrow:disabled{
+  opacity:.35;
+  cursor:default;
+  transform:none;
+  background:var(--paper3)
+}
+
+.htimeline-arrow svg{
+  width:15px;
+  height:15px;
+  stroke:currentColor;
+  fill:none;
+  stroke-width:1.8
+}
+
+.htbadge{
+  font-size:.82rem;
+  color:var(--soft);
+  font-style:italic;
+  min-width:150px;
+  text-align:center
+}
+
+.htimeline-hint{
+  text-align:center;
+  font-size:.72rem;
+  color:var(--soft);
+  opacity:.65;
+  margin-top:6px
+}
+
+:root[data-theme="dark"] .htimeline-node{
+  background:var(--paper3)
+}
+
+
+/* =========================
+   ECONOMY
+========================= */
+
+.split{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px
+}
+
+.crop-tabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:18px 0
+}
+
+.crop-tabs button{
+  padding:8px 13px;
+  border:1px solid var(--ink);
+  background:transparent;
+  border-radius:999px
+}
+
+.crop-tabs button.active{
+  background:var(--tobacco);
+  color:var(--paper3)
+}
+
+.crop-panel{
+  background:var(--paper2);
+  padding:24px;
+  border-left:4px solid var(--tobacco);
+  min-height:155px
+}
+
+.flow{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-top:22px
+}
+
+.flow .step{
+  background:var(--paper2);
+  border:1px solid var(--line);
+  padding:18px;
+  position:relative
+}
+
+.step b{
+  display:block;
+  color:var(--seal);
+  font:700 1.1rem "Cormorant Garamond";
+  margin-bottom:7px
+}
+
+
+/* =========================
+   SOCIAL HIERARCHY
+========================= */
+
+.pyramid-wrap{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:30px;
+  align-items:start
+}
+
+.pyramid{
+  display:flex;
+  flex-direction:column;
+  gap:4px
+}
+
+.band{
+  margin:auto;
+  border:0;
+  color:var(--paper3);
+  padding:12px 8px;
+  background:var(--indigo);
+  transition:.2s
+}
+
+.band:nth-child(1){
+  width:48%;
+  background:var(--seal)
+}
+
+.band:nth-child(2){
+  width:58%;
+  background:#6b3f34
+}
+
+.band:nth-child(3){
+  width:70%;
+  background:var(--indigo)
+}
+
+.band:nth-child(4){
+  width:82%;
+  background:#4a5c86
+}
+
+.band:nth-child(5){
+  width:93%;
+  background:var(--tobacco)
+}
+
+.band:nth-child(6){
+  width:100%;
+  background:var(--gold);
+  color:var(--ink)
+}
+
+.band.active{
+  outline:3px solid var(--ink);
+  outline-offset:2px
+}
+
+
+/* =========================
+   PEOPLE
+========================= */
+
+.people{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px
+}
+
+.person{
+  padding:20px;
+  border:1px solid var(--line);
+  background:var(--paper3);
+  font-family:"Cormorant Garamond";
+  font-size:1.2rem
+}
+
+.quote{
+  font:italic 1.45rem/1.35 "Cormorant Garamond";
+  color:var(--indigo);
+  border-block:1px solid var(--line);
+  padding:18px 0;
+  margin:20px 0
+}
+
+
+/* =========================
+   TOPICS LIST
+========================= */
+
+.topic-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap
+}
+
+.topic-row .left{
+  display:flex;
+  align-items:baseline;
+  gap:16px
+}
+
+.topic-row .num{
+  font-size:1.5rem;
+  min-width:34px
+}
+
+.topic-row .title{
+  font-size:1.05rem
+}
+
+.tag-btn{
+  border:1px solid var(--seal);
+  background:transparent;
+  color:var(--seal);
+  padding:6px 13px;
+  border-radius:999px;
+  font-size:.75rem;
+  white-space:nowrap
+}
+
+.tag-btn:hover{
+  background:var(--seal);
+  color:var(--paper3)
+}
+
+
+/* =========================
+   TOPIC DETAIL PAGE
+========================= */
+
+.topic-copy .kicker{
+  margin-bottom:6px
+}
+
+.topic-focus{
+  margin-top:18px;
+  padding:15px 18px;
+  background:var(--paper2);
+  border-left:4px solid var(--seal);
+}
+
+.topic-focus strong{
+  display:block;
+  color:var(--seal);
+  margin-bottom:4px;
+}
+
+.topic-related{
+  margin-top:20px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.topic-related span{
+  color:var(--soft);
+  font-size:.85rem;
+}
+
+
+/* =========================
+   PAGE NAVIGATION
+========================= */
+
+.nav-footer{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:40px;
+  border-top:1px solid var(--line);
+  padding-top:18px
+}
+
+
+/* =========================
+   IMAGE MODAL
+========================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(24,18,13,.65);
+  z-index:200;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px
+}
+
+.modal.show{
+  display:flex
+}
+
+.modal-box{
+  max-width:720px;
+  width:100%;
+  max-height:85vh;
+  overflow:auto;
+  background:var(--paper3);
+  padding:28px;
+  box-shadow:var(--shadow);
+  position:relative
+}
+
+.close{
+  position:absolute;
+  right:12px;
+  top:10px;
+  border:0;
+  background:none;
+  font-size:1.7rem
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1150px){
+  .topbar-inner{
+    padding-inline:16px;
+  }
+  .brand{
+    display:none;
+  }
+  .topbar-actions{
+    flex:1 1 auto;
+    min-width:0;
+    width:100%;
+  }
+  .topbar-actions .nav{
+    justify-content:center;
+  }
+}
+
+@media(max-height:800px) and (min-width:851px){
+  .hero{
+    padding-top:0;
+    padding-bottom:12px;
+    row-gap:10px;
+  }
+
+  .hero h1{
+    font-size:clamp(2.65rem,3.9vw,3.75rem);
+    line-height:.9;
+  }
+
+  .hero .visual{
+    height:300px;
+  }
+
+  .hero p{
+    line-height:1.42;
+  }
+
+  .hero-intro-row .cta-row{
+    margin-top:6px;
+  }
+}
+
+@media(max-width:850px){
+
+  .hero,
+  .split,
+  .pyramid-wrap{
+    grid-template-columns:1fr
+  }
+
+  .hero{
+    min-height:auto;
+    height:auto;
+    max-height:none;
+    padding:30px 0 55px;
+    overflow:visible;
+    row-gap:18px;
+  }
+
+  .hero-intro-row{
+     grid-column:auto;
+     align-items:flex-start;
+     gap:0;
+   }
+
+   .hero-intro-row .cta-row{
+     justify-content:flex-start;
+     margin-top:12px;
+   }
+
+   .hero .visual{
+    grid-column:auto;
+    max-width:none;
+    min-height:330px;
+    height:380px;
+    max-height:420px;
+    margin-top:0;
+  }
+
+  .detail-media{
+    grid-template-columns:1fr
+  }
+
+  .grid{
+    grid-template-columns:1fr 1fr
+  }
+
+  .flow{
+    grid-template-columns:1fr 1fr
+  }
+
+  .people{
+    grid-template-columns:1fr 1fr
+  }
+
+}
+
+@media(max-width:900px){
+
+  .topic-float-visual{
+    float:none;
+    width:100%;
+    margin:0 0 18px;
+  }
+
+}
+
+@media(max-width:560px){
+
+  .topic-image-gallery.has-two{
+    grid-template-columns:1fr;
+  }
+
+  .topic-image-gallery img,
+  .topic-image-gallery.has-two img{
+    max-height:420px;
+  }
+
+  main{
+    padding-inline:15px
+  }
+
+  .topbar-inner{
+    padding-inline:15px;
+    align-items:flex-start;
+    flex-direction:column
+  }
+
+  .topbar-actions{
+    width:100%;
+    min-width:0;
+  }
+
+  .nav{
+    width:100%;
+    justify-content:flex-start;
+  }
+
+  .grid,
+  .flow,
+  .people{
+    grid-template-columns:1fr
+  }
+
+  .hero h1{
+    font-size:clamp(3rem,11.5vw,4rem);
+    line-height:.96;
+    max-width:100%;
+    margin-bottom:20px;
+  }
+
+  .visual{
+    min-height:280px;
+    height:300px;
+    max-height:340px;
+  }
+
+  .hero{
+    padding-top:24px;
+  }
+
+  .hero .visual{
+    margin-top:0;
+  }
+
+  .page-head{
+    display:block
+  }
+
+  .page-head p{
+    margin-top:12px
+  }
+
+  .event{
+    grid-template-columns:38px 1fr
+  }
+
+  .topic-row{
+    align-items:flex-start
+  }
+
+}
+
+/* HERO SPACING FIX */
+.hero-actions {
+    margin-top: 18px !important;
+}
+
+.hero-copy p {
+    grid-column: 1 / -1;
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.hero-credits,
+.credits,
+.hero-footer {
+    margin-top: 18px !important;
+    padding-top: 0 !important;
+}
+
+.hero {
+    min-height: auto !important;
+    justify-content: flex-start !important;
+}
+
+
+/* ===== Combined features from the original version ===== */
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;min-width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--paper3);color:var(--ink);cursor:pointer;transition:transform .3s,background .3s}
+.theme-toggle:hover{transform:rotate(22deg) scale(1.07);background:var(--paper2)}
+.theme-toggle svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8}
+.topbar-actions{display:flex;align-items:center;gap:8px;min-width:0}
+.theme-toggle{flex:0 0 40px}
+.back-to-top{position:fixed;right:22px;bottom:22px;z-index:180;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--paper3);color:var(--ink);box-shadow:0 7px 22px rgba(0,0,0,.12);cursor:pointer;opacity:0;pointer-events:none;transform:translateY(12px);transition:opacity .3s,transform .3s}
+.back-to-top.visible{opacity:1;pointer-events:auto;transform:none}
+.back-to-top:hover{transform:translateY(-4px)}
+.study-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0}
+.study-tabs button{border:1px solid var(--line);background:var(--paper3);color:var(--soft);padding:9px 14px;border-radius:999px;cursor:pointer}
+.study-tabs button.active{background:var(--ink);color:var(--paper3)}
+.study-panel{display:none}
+.study-panel.active{display:block;animation:pageIn .3s ease}
+.study-panel .study-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.study-panel .study-stat{background:var(--paper2);border-top:3px solid var(--seal);padding:18px}
+.study-panel .study-stat b{display:block;font:700 2rem "Cormorant Garamond",serif;color:var(--seal)}
+.study-panel .study-stat span{color:var(--soft);font-size:.9rem}
+.study-panel p{font-size:1.08rem;line-height:1.75}
+
+:root[data-theme="dark"] .topbar{
+  background:rgba(23,21,18,.96);
+}
+
+:root[data-theme="dark"] .card,
+:root[data-theme="dark"] .person,
+:root[data-theme="dark"] .event button,
+:root[data-theme="dark"] .quiz-box,
+:root[data-theme="dark"] .qopt,
+:root[data-theme="dark"] .modal-box,
+:root[data-theme="dark"] .topic-float-visual,
+:root[data-theme="dark"] #topicViewBody{
+  background:var(--paper3);
+}
+
+:root[data-theme="dark"] .btn.alt{
+  color:var(--ink);
+}
+
+:root[data-theme="dark"] .theme-toggle{
+  background:var(--paper3);
+  color:var(--ink);
+}
+.quiz-box{position:relative;border:1px solid var(--line);background:var(--paper3);padding:28px;box-shadow:var(--shadow);overflow:hidden}
+.qprog{font-size:.85rem;color:var(--soft);margin-bottom:14px;font-style:italic}
+.qprompt{font:600 1.55rem/1.25 "Cormorant Garamond",serif;margin:0 0 18px}
+.qopts{display:flex;flex-direction:column;gap:9px}
+.qopt{font-family:"Source Serif 4",serif;font-size:1rem;text-align:left;padding:13px 15px;border:1px solid var(--line);background:var(--paper);border-radius:4px;cursor:pointer;transition:border-color .15s,background .15s,transform .1s}
+.qopt:hover:not(:disabled){border-color:var(--seal);transform:translateX(3px)}
+.qopt:disabled{cursor:default}
+.qopt.correct{border-color:var(--good,#3c5d46);background:rgba(60,93,70,.12)}
+.qopt.wrong{border-color:var(--seal);background:rgba(140,54,41,.12)}
+.qfeedback{margin-top:16px;color:var(--soft)}
+.qnext{margin-top:16px}
+.qresult{text-align:center;padding:18px 0}
+.qresult .score{font:700 4rem "Cormorant Garamond",serif;color:var(--seal);margin:8px 0}
+
+/* Navigation and references refinement */
+.topbar-actions{display:flex;align-items:center;gap:10px;flex:1 1 auto;min-width:0}
+.nav{flex:1 1 auto;min-width:0}
+.nav-dropdown{position:relative;flex:0 0 auto}
+.nav-dropdown-toggle{display:inline-flex!important;align-items:center;gap:5px}
+.nav-menu{position:absolute;top:calc(100% + 12px);right:0;min-width:175px;padding:7px;background:var(--paper3);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:8px;display:none;z-index:220}
+.nav-dropdown.open .nav-menu{display:flex;flex-direction:column}
+.nav-menu button{width:100%;text-align:left;border-radius:5px!important;padding:9px 11px!important}
+.nav-menu button:hover,.nav-menu button.active{background:var(--ink);color:var(--paper3)}
+.nav-dropdown-toggle.active{background:var(--ink);color:var(--paper3)}
+.reference-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.reference-card{background:var(--paper3);border:1px solid var(--line);padding:22px;box-shadow:0 8px 24px rgba(36,28,20,.05)}
+.reference-card h3{font-size:1.65rem;margin:7px 0 9px}
+.reference-card p{margin:0;color:var(--soft)}
+.reference-type{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--gold)}
+.reference-card a,.topic-sources a{color:var(--indigo);text-underline-offset:3px}
+.reference-links{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px}
+.reference-note{margin-top:18px;padding:16px 18px;border-left:4px solid var(--seal);background:var(--paper2);display:flex;gap:10px;flex-wrap:wrap}
+.reference-note span{color:var(--soft)}
+.topic-sources{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:.88rem}
+.topic-sources span{font-weight:600;color:var(--ink)}
+.topic-sources a{background:var(--paper2);padding:6px 10px;border-radius:999px}
+:root[data-theme="dark"] body{background-image:radial-gradient(rgba(242,234,219,.025) 1px,transparent 1px)}
+:root[data-theme="dark"] .reference-card{box-shadow:0 8px 24px rgba(0,0,0,.18)}
+@media(max-width:850px){.reference-grid{grid-template-columns:1fr}.topbar-inner{padding:16px 18px}.brand strong{font-size:1.35rem}.nav{overflow-x:auto;overflow-y:visible}.nav-dropdown{flex:0 0 auto}.nav-menu{z-index:500}}
+@media(max-width:560px){.topbar-inner{gap:10px;padding:14px 14px}.brand{display:none}.nav-dropdown{position:static}.nav-menu{position:fixed;left:14px;right:14px;top:68px;min-width:0}.reference-note{display:block}.reference-note span{display:block;margin-top:5px}}
+
+@media(max-width:850px){.study-panel .study-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.topbar-actions{width:100%;justify-content:space-between}.quiz-box{padding:20px}.study-tabs{gap:6px}.study-tabs button{padding:8px 11px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}.back-to-top{transition:none}}
+
+
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+  <div class="topbar-inner">
+
+    <button class="brand" data-page="home">
+      <small>GEC 9 · Life and Works of Rizal</small>
+      <strong>The Ledger of a Changing Colony</strong>
+    </button>
+
+    <nav class="nav" aria-label="Main navigation">
+      <button data-page="home">Home</button>
+      <button data-page="topics">Topics</button>
+      <button data-page="timeline">Timeline</button>
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false">Explore <span aria-hidden="true"></span></button>
+        <div class="nav-menu" role="menu">
+          <button data-page="economy" role="menuitem">Economy</button>
+          <button data-page="society" role="menuitem">Society</button>
+          <button data-page="life" role="menuitem">Life</button>
+          <button data-page="reform" role="menuitem">Toward Reform</button>
+        </div>
+      </div>
+      <button data-page="themes">Themes</button>
+      <button data-page="quiz">Quiz</button>
+      <button data-page="references">References</button>
+    </nav>
+
+  </div>
+
+  <div class="progress">
+    <i id="progressBar"></i>
+  </div>
+
+</header>
+
+
+<main>
+
+
+<!-- =========================
+     HOME
+========================= -->
+
+<section class="page active" id="home">
+
+  <div class="hero">
+
+    <div class="hero-heading">
+
+      <div class="eyebrow">
+        Philippine economy &amp; society, 1778–1872
+      </div>
+
+      <h1>
+        An interactive exploration of the 19th century Philippine economy, society, education, and reform.
+      </h1>
+
+    </div>
+
+
+    <div class="visual">
+
+      <img
+        src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Manila_1851.jpg?width=1500"
+        alt="Map of Old Manila in 1851"
+      >
+
+      <div class="visual-caption">
+        Map of Old Manila, 1851 — a historical visual anchor
+        for the changing colony
+      </div>
+
+    </div>
+
+
+    <div class="hero-intro-row">
+
+      <p>
+        In 1778, a new governor-general stepped off a galleon
+        and found an empire's account books running red.
+        What followed — new crops, new traders, new fortunes,
+        and a new class of people caught between two worlds —
+        reshaped who held power in the Philippines, and set
+        the stage for the generation that would later demand
+        a reckoning.
+      </p>
+
+      <div class="cta-row">
+        <button class="btn" data-page="timeline">
+          Enter the timeline →
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+
+</section>
+
+
+<!-- =========================
+     TOPICS (assignment brief)
+========================= -->
+
+<section class="page" id="topics">
+
+  <div class="page-head">
+
+    <div>
+      <div class="kicker">Chapter 5 · Suggested Topics</div>
+      <h2>
+        The Nineteenth-Century Philippine Economy,
+        Society, and Chinese Mestizo
+      </h2>
+    </div>
+
+    <p>
+      Select a topic to read its specific historical content.
+      The topic titles are kept as listed in the course material,
+      while each topic now has its own distinct explanation.
+    </p>
+
+  </div>
+
+  <div
+    class="grid"
+    style="grid-template-columns:1fr;gap:10px"
+    id="topicsList"
+  ></div>
+
+  <div class="nav-footer">
+
+    <button class="btn alt" data-page="home">
+      ← Home
+    </button>
+
+    <button class="btn" data-page="timeline">
+      Next: Timeline →
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     TOPIC DETAIL (own page per topic)
+========================= -->
+
+<section class="page" id="topicview">
+
+  <div class="page-head">
+
+    <div>
+      <div class="kicker" id="topicViewKicker">
+        Topic
+      </div>
+      <h2 id="topicViewTitle"></h2>
+    </div>
+
+  </div>
+
+  <div class="topic-content-split">
+
+    <article class="card topic-article">
+
+      <div
+        class="visual topic-visual topic-float-visual"
+      >
+
+        <div id="topicViewImages" class="topic-image-gallery">
+          <img
+            id="topicViewImage"
+            src=""
+            alt=""
+          >
+        </div>
+
+        <div
+          class="visual-caption"
+          id="topicViewCaption"
+        ></div>
+
+      </div>
+
+      <div id="topicViewBody"></div>
+
+    </article>
+
+  </div>
+
+  <div class="nav-footer">
+
+    <button class="btn alt" data-page="topics">
+      ← Back to Topics
+    </button>
+
+    <button class="btn" id="topicViewNext">
+      Next topic →
+    </button>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     THEMES / STUDY GUIDE
+========================= -->
+
+<section class="page" id="themes">
+
+  <div class="page-head">
+    <div>
+      <div class="kicker">Study Guide · Four Threads</div>
+      <h2>Four threads of change</h2>
+    </div>
+    <p>
+      A compact synthesis of the major economic, social,
+      educational, and reform currents running through the century.
+    </p>
+  </div>
+
+  <div class="study-tabs" id="studyTabs"></div>
+  <div id="studyPanels"></div>
+
+  <div class="nav-footer">
+    <button class="btn alt" data-page="topics">← Topics</button>
+    <button class="btn" data-page="quiz">Test yourself →</button>
+  </div>
+
+</section>
+
+
+<!-- =========================
+     QUIZ
+========================= -->
+
+<section class="page" id="quiz">
+
+  <div class="page-head">
+    <div>
+      <div class="kicker">Review</div>
+      <h2>Test what you've learned</h2>
+    </div>
+    <p>
+      Fifteen questions covering dates, trade, agriculture,
+      social classes, education, and reform. Each visit gives you a different set.
+    </p>
+  </div>
+
+  <div class="quiz-box" id="quizBox"></div>
+
+  <div class="nav-footer">
+    <button class="btn alt" data-page="themes">← Themes</button>
+    <button class="btn" data-page="topics">Back to Topics →</button>
+  </div>
+
+</section>
+
+
+<!-- =========================
+     TIMELINE
+========================= -->
+
+<section class="page" id="timeline">
+
+  <div class="page-head">
+
+    <div>
+
+      <div class="kicker">
+        Register
+      </div>
+
+      <h2>
+        A century on one line
+      </h2>
+
+    </div>
+
+    <p>
+      Sixteen entries, spaced by their real distance in years.
+      Scroll the strip, tap a marker, or step through
+      with the arrows.
+    </p>
+
+  </div>
+
+
+  <div class="htimeline" id="htimeline">
+    <div class="htimeline-scroll" id="htimelineScroll">
+      <div class="htimeline-track"><div class="htimeline-fill" id="htimelineFill"></div></div>
+    </div>
+  </div>
+
+  <div class="htimeline-controls">
+    <button class="htimeline-arrow" id="htimelinePrev" aria-label="Earlier entry" type="button">
+      <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <span class="htbadge" id="htimelineBadge"></span>
+    <button class="htimeline-arrow" id="htimelineNext" aria-label="Later entry" type="button">
+      <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+
+  <p class="htimeline-hint">Use the ← / → keys on your keyboard, or the arrows above, to browse.</p>
+
+  <div
+    class="detail"
+    id="timelineDetail"
+  ></div>
+
+
+  <div class="nav-footer">
+
+    <button
+      class="btn alt"
+      data-page="topics"
+    >
+      ← Topics
+    </button>
+
+    <button
+      class="btn"
+      data-page="economy"
+    >
+      Next: Economy →
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     ECONOMY
+========================= -->
+
+<section class="page" id="economy">
+
+  <div class="page-head">
+
+    <div>
+
+      <div class="kicker">
+        Entries 1–4
+      </div>
+
+      <h2>
+        The economic transformation
+      </h2>
+
+    </div>
+
+    <p>
+      From the failing galleon system to export agriculture,
+      land, and ports.
+    </p>
+
+  </div>
+
+
+  <div class="split">
+
+    <article class="card">
+
+      <div class="kicker">
+        01 · Changing economy
+      </div>
+
+      <h3>
+        The old system breaks
+      </h3>
+
+      <p>
+        By the late 1700s, the Galleon Trade was already failing.
+        Basco's answer was the Royal Philippine Company, founded
+        in 1785 to bankroll agriculture and open new markets
+        across Asia and Europe.
+      </p>
+
+      <div class="quote">
+        "As the Philippine economy hung in the balance,
+        Manila was opened to world trade by 1834."
+      </div>
+
+      <p>
+        The Mexican War of Independence began in 1810,
+        the Galleon Trade ended in 1815, and Manila opened
+        fully to world trade by 1834.
+      </p>
+
+    </article>
+
+
+    <article class="image-card card">
+
+      <img
+        src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Manila_1851.jpg?width=1400"
+        alt="Map of Old Manila in 1851"
+      >
+
+      <div class="inside">
+
+        <div class="kicker">
+          02 · Ports & regions
+        </div>
+
+        <h3>
+          Beyond Manila
+        </h3>
+
+        <p>
+          Iloilo, Cebu, and other ports pulled more of the
+          archipelago into the export economy. Important
+          commercial regions included Iloilo, Negros,
+          Batangas, Pampanga, and Camarines.
+        </p>
+
+      </div>
+
+    </article>
+
+  </div>
+
+
+  <article
+    class="card"
+    style="margin-top:20px"
+  >
+
+    <div class="kicker">
+      03 · What the ledgers sold
+    </div>
+
+    <h3>
+      Seven important export commodities
+    </h3>
+
+    <div
+      class="crop-tabs"
+      id="cropTabs"
+    ></div>
+
+    <div
+      class="crop-panel"
+      id="cropPanel"
+    ></div>
+
+  </article>
+
+
+  <article
+    class="card"
+    style="margin-top:20px"
+  >
+
+    <div class="kicker">
+      04 · Land, debt, and tenancy
+    </div>
+
+    <h3>
+      How a smallholder could become a tenant
+    </h3>
+
+    <div class="flow">
+
+      <div class="step">
+
+        <b>I</b>
+
+        A smallholder needs capital and sells land under a
+        <em>pacto de retroventa</em>, keeping the right
+        to buy it back.
+
+      </div>
+
+
+      <div class="step">
+
+        <b>II</b>
+
+        Rising land demand makes the buy-back price harder
+        to meet as the pact is renewed.
+
+      </div>
+
+
+      <div class="step">
+
+        <b>III</b>
+
+        Debt accumulates faster than the farmer can repay it.
+
+      </div>
+
+
+      <div class="step">
+
+        <b>IV</b>
+
+        The land is forfeited; the former owner becomes a
+        <em>kasama</em>, a tenant on his former land.
+
+      </div>
+
+    </div>
+
+    <p style="margin-top:18px">
+
+      Land grabbing added pressure, while the
+      <em>inquilino</em> rented land in bulk and sublet it
+      to smaller farmers.
+
+    </p>
+
+  </article>
+
+
+  <div class="nav-footer">
+
+    <button
+      class="btn alt"
+      data-page="timeline"
+    >
+      ← Timeline
+    </button>
+
+    <button
+      class="btn"
+      data-page="society"
+    >
+      Next: Society →
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     SOCIETY
+========================= -->
+
+<section class="page" id="society">
+
+  <div class="page-head">
+
+    <div>
+
+      <div class="kicker">
+        Entries 5–7
+      </div>
+
+      <h2>
+        The social ledger
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="split">
+
+    <article class="card">
+
+      <div class="kicker">
+        05 · The Chinese
+      </div>
+
+      <h3>
+        "Necessary outsiders"
+      </h3>
+
+      <p>
+        Trade with China predated Spanish rule. Chinese residents
+        worked as merchants, shopkeepers, artisans, traders,
+        agricultural entrepreneurs, and moneylenders, while also
+        facing higher taxes, forced residence in the Parian,
+        and periodic expulsions.
+      </p>
+
+      <div
+        class="grid"
+        style="grid-template-columns:1fr 1fr;margin-top:18px"
+      >
+
+        <div class="card">
+          Merchants
+        </div>
+
+        <div class="card">
+          Shopkeepers
+        </div>
+
+        <div class="card">
+          Artisans
+        </div>
+
+        <div class="card">
+          Moneylenders
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <article class="card image-card">
+
+      <img
+        src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Parian_de_Manila_en_1792.jpg?width=1200"
+        alt="Parian market in Manila, 1792"
+      >
+
+      <div class="inside">
+
+        <div class="kicker">
+          06 · Chinese mestizo
+        </div>
+
+        <h3>
+          A rising economic group
+        </h3>
+
+        <p>
+          Chinese mestizos built wealth through agriculture,
+          landownership, trade, retail, leasing farmland,
+          and export enterprises.
+        </p>
+
+        <p class="quote">
+
+          Rizal's family in Calamba was economically established
+          and involved in agriculture — a position that helped
+          provide him with access to education.
+
+        </p>
+
+      </div>
+
+    </article>
+
+  </div>
+
+
+  <article
+    class="card"
+    style="margin-top:20px"
+  >
+
+    <div class="kicker">
+      07 · Social hierarchy
+    </div>
+
+    <h3>
+      Tap the hierarchy
+    </h3>
+
+    <div class="pyramid-wrap">
+
+      <div
+        class="pyramid"
+        id="pyramid"
+      ></div>
+
+      <div
+        class="detail"
+        id="pDetail"
+      ></div>
+
+    </div>
+
+  </article>
+
+
+  <div class="nav-footer">
+
+    <button
+      class="btn alt"
+      data-page="economy"
+    >
+      ← Economy
+    </button>
+
+    <button
+      class="btn"
+      data-page="life"
+    >
+      Next: Life →
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     LIFE
+========================= -->
+
+<section class="page" id="life">
+
+  <div class="page-head">
+
+    <div>
+
+      <div class="kicker">
+        Entries 8–10
+      </div>
+
+      <h2>
+        Life under the new order
+      </h2>
+
+    </div>
+
+    <p>
+      Education, urban change, colonial record-keeping,
+      travel, and uneven prosperity.
+    </p>
+
+  </div>
+
+
+  <div class="grid">
+
+    <article class="card image-card">
+
+      <img
+        src="https://commons.wikimedia.org/wiki/Special:Redirect/file/El_Mestiso_by_Justiniano_Asuncion.jpg?width=700"
+        alt="El Mestiso, a 19th-century Tipos del País watercolor"
+      >
+
+      <div class="inside">
+
+        <div class="kicker">
+          08 · Education
+        </div>
+
+        <h3>
+          Schools and a literate workforce
+        </h3>
+
+        <p>
+          In 1836, the colonial government ordered every town
+          to open a primary school. Schools such as Ateneo Municipal
+          helped train the growing professional class.
+        </p>
+
+      </div>
+
+    </article>
+
+
+    <article class="card image-card">
+
+      <img
+        src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Manila_1851.jpg?width=1400"
+        alt="Map of Old Manila in 1851"
+      >
+
+      <div class="inside">
+
+        <div class="kicker">
+          08 · Urban life
+        </div>
+
+        <h3>
+          Manila's prosperity had costs
+        </h3>
+
+        <p>
+          Urban growth brought crowding, strained housing,
+          sanitation problems, more crime, and a shifting tax base.
+        </p>
+
+      </div>
+
+    </article>
+
+
+    <article class="card image-card">
+
+      <img
+        src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Le_Canal_Maritime_de_Suez_1869_(148057550).jpg?width=1400"
+        alt="Illustration of the Suez Canal, 1869"
+      >
+
+      <div class="inside">
+
+        <div class="kicker">
+          08 · Travel
+        </div>
+
+        <h3>
+          The Suez Canal opens
+        </h3>
+
+        <p>
+          When the Suez Canal opened in 1869, travel between
+          the Philippines and Europe shortened dramatically,
+          making study abroad easier.
+        </p>
+
+      </div>
+
+    </article>
+
+  </div>
+
+
+  <article
+    class="card"
+    style="margin-top:20px"
+  >
+
+    <div class="kicker">
+      09–10 · Ilustrados & uneven gains
+    </div>
+
+    <h3>
+      A new educated middle class
+    </h3>
+
+    <p>
+      Economic growth created a Filipino middle class from
+      landownership, agriculture, trade, business, government
+      posts, and professional work. Families able to educate
+      their children in Manila or Europe produced the
+      <strong>ilustrados</strong>.
+    </p>
+
+
+    <div class="people">
+
+      <div class="person">
+        Jose Rizal
+      </div>
+
+      <div class="person">
+        Marcelo H. del Pilar
+      </div>
+
+      <div class="person">
+        Graciano Lopez Jaena
+      </div>
+
+      <div class="person">
+        Mariano Ponce
+      </div>
+
+    </div>
+
+
+    <p style="margin-top:18px">
+
+      At the same time, prosperity was uneven. Many ordinary
+      Filipinos continued to face taxation, forced labor obligations,
+      land disputes, social inequality, and abuses by local officials.
+
+    </p>
+
+  </article>
+
+
+  <div class="nav-footer">
+
+    <button
+      class="btn alt"
+      data-page="society"
+    >
+      ← Society
+    </button>
+
+    <button
+      class="btn"
+      data-page="reform"
+    >
+      Next: Toward Reform →
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     REFORM
+========================= -->
+
+<section class="page" id="reform">
+
+  <div class="page-head">
+
+    <div>
+
+      <div class="kicker">
+        Entry 11
+      </div>
+
+      <h2>
+        Where it was heading
+      </h2>
+
+    </div>
+
+    <p>
+      The economic and social currents of the century converged
+      into demands carried forward by the Propaganda Movement.
+    </p>
+
+  </div>
+
+
+  <div class="split">
+
+    <div>
+
+      <div
+        class="visual"
+        style="min-height:430px"
+      >
+
+        <img
+          src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Portrait_of_Jos%C3%A9_Rizal_(1883).jpg?width=900"
+          alt="Portrait of José Rizal, 1883"
+        >
+
+        <div class="visual-caption">
+          The century's changes became the context
+          for a generation of reformers.
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <article class="card">
+
+      <div class="kicker">
+        The reform agenda
+      </div>
+
+      <h3>
+        Seven documented demands in the supplied text
+      </h3>
+
+      <div
+        class="grid"
+        style="grid-template-columns:1fr 1fr"
+      >
+
+        <div class="card">
+          Equality between Filipinos and Spaniards
+        </div>
+
+        <div class="card">
+          Representation in the Spanish Cortes
+        </div>
+
+        <div class="card">
+          Secularization of parishes
+        </div>
+
+        <div class="card">
+          Freedom of speech and expression
+        </div>
+
+        <div class="card">
+          Educational reforms
+        </div>
+
+        <div class="card">
+          Reduction of abuses by colonial officials
+        </div>
+
+        <div class="card">
+          Greater political and social rights
+        </div>
+
+      </div>
+
+    </article>
+
+  </div>
+
+
+  <article
+    class="card"
+    style="
+      margin-top:20px;
+      text-align:center;
+      padding:35px
+    "
+  >
+
+    <div class="kicker">
+      The closing ledger
+    </div>
+
+    <h3 style="font-size:2.4rem">
+
+      A century of ledgers, monopolies, migrations,
+      and decrees had, without quite intending to,
+      written the opening chapter of Filipino nationalism.
+
+    </h3>
+
+  </article>
+
+
+  <div class="nav-footer">
+
+    <button
+      class="btn alt"
+      data-page="life"
+    >
+      ← Life
+    </button>
+
+    <button
+      class="btn"
+      data-page="home"
+    >
+      Return to cover ↗
+    </button>
+
+  </div>
+
+</section>
+
+<section class="page" id="references">
+  <div class="page-head">
+    <div><div class="kicker">Sources & further reading</div><h2>References</h2></div>
+    <p>A compact source list for the historical context, course material, and archival visuals used throughout the chapter.</p>
+  </div>
+  <div class="reference-grid">
+    <article class="reference-card"><span class="reference-type">Course source</span><h3>Wani-Obias et al. (2018)</h3><p><em>The Life and Works of Rizal</em>, Chapter 5. This is the principal course reference for the chapter's discussion of nineteenth-century Philippine economic and social change.</p></article>
+    <article class="reference-card"><span class="reference-type">Institutional source</span><h3>National Commission for Culture and the Arts</h3><p><a href="https://ncca.gov.ph/wp-content/uploads/2021/09/PHILIPPINE-HISTORY-SOURCE-BOOK-FINAL-SEP022021.pdf" target="_blank" rel="noopener">Philippine History Source Book</a> — material on the nineteenth-century transition, the Galleon Trade, export agriculture, and social change.</p></article>
+    <article class="reference-card"><span class="reference-type">Historical source</span><h3>National Historical Commission of the Philippines</h3><p><a href="https://memory.nhcp.gov.ph/articles/a-19th-century-british-company-in-manila-through-an-nhcp-rare-manuscript/" target="_blank" rel="noopener">A 19th Century British Company in Manila through an NHCP Rare Manuscript</a> — contextualizes foreign merchant houses, credit, shipments, and the nineteenth-century commercial transition.</p></article>
+    <article class="reference-card"><span class="reference-type">Archival visual collection</span><h3>Wikimedia Commons · Philippine historical materials</h3><p>Historical maps, Tipos del País watercolors, portraits, documents, and other public-domain or openly licensed materials used as visual references. Individual image captions identify the subject and date where available.</p><div class="reference-links"><a href="https://commons.wikimedia.org/wiki/Category:History_of_the_Philippines" target="_blank" rel="noopener">History of the Philippines</a><a href="https://commons.wikimedia.org/wiki/Category:Tipos_del_Pa%C3%ADs" target="_blank" rel="noopener">Tipos del País</a><a href="https://commons.wikimedia.org/wiki/Category:Old_maps_of_the_Philippines" target="_blank" rel="noopener">Old maps of the Philippines</a></div></article>
+    <article class="reference-card"><span class="reference-type">Historical source</span><h3>Port of Iloilo — Wikipedia</h3><p><a href="https://en.wikipedia.org/wiki/Port_of_Iloilo" target="_blank" rel="noopener">Port of Iloilo</a> — background on the port's 1855 opening to foreign trade and its role in the Visayas sugar boom, used for the timeline's Iloilo and Negros entries.</p></article>
+    <article class="reference-card"><span class="reference-type">Historical source</span><h3>1872 Cavite Mutiny — Wikipedia</h3><p><a href="https://en.wikipedia.org/wiki/1872_Cavite_mutiny" target="_blank" rel="noopener">1872 Cavite mutiny</a> — background on the arsenal uprising and its link to the execution of Gomburza, used for the timeline's 1872 entry.</p></article>
+    <article class="reference-card"><span class="reference-type">Institutional source</span><h3>Negros Occidental Provincial Government</h3><p><a href="https://www.negros-occ.gov.ph/?p=333" target="_blank" rel="noopener">Negros History</a> — provincial account of the mid-century sugar boom and the opening of Visayan ports, used for the timeline's Negros entry.</p></article>
+  </div>
+  <div class="reference-note"><strong>Image note</strong><span>The site uses historical or archival visual material rather than AI-generated historical scenes. Modern photographs are used only where they document surviving historical places or objects.</span></div>
+</section>
+
+</main>
+
+<footer style="text-align:center;padding:6px 24px 34px;color:var(--soft);font-size:.72rem;opacity:.6;letter-spacing:.02em">
+  Comploma, Lhorwin Faith · Juntado, Jimmy Lyn · Villafranca, Lovely — BSIT-3B
+</footer>
+
+
+<!-- IMAGE MODAL -->
+
+<div
+  class="modal"
+  id="modal"
+>
+
+  <div class="modal-box">
+
+    <button
+      class="close"
+      id="closeModal"
+    >
+      ×
+    </button>
+
+    <div id="modalBody"></div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   PAGE NAVIGATION
+========================= */
+
+const pages =
+  [...document.querySelectorAll('.page')];
+
+const navButtons =
+  [...document.querySelectorAll('[data-page]')];
+
+const progress = {
+  home:'13%',
+  topics:'25%',
+  topicview:'25%',
+  timeline:'38%',
+  themes:'44%',
+  quiz:'47%',
+  economy:'53%',
+  society:'63%',
+  life:'75%',
+  reform:'88%',
+  references:'100%'
+};
+
+
+function showPage(id, push=true){
+
+  pages.forEach(
+    p =>
+      p.classList.toggle(
+        'active',
+        p.id === id
+      )
+  );
+
+
+  document
+    .querySelectorAll('.nav button[data-page]')
+    .forEach(
+      b =>
+        b.classList.toggle(
+          'active',
+          b.dataset.page === id
+        )
+    );
+
+  const explore=document.querySelector('.nav-dropdown');
+  const exploreToggle=explore?.querySelector('.nav-dropdown-toggle');
+  const inExplore=['economy','society','life','reform'].includes(id);
+  if(exploreToggle) exploreToggle.classList.toggle('active',inExplore);
+  if(explore && !inExplore){ explore.classList.remove('open'); exploreToggle?.setAttribute('aria-expanded','false'); }
+
+
+  document.getElementById(
+    'progressBar'
+  ).style.width =
+    progress[id] || '14%';
+
+
+  if(push){
+
+    history.pushState(
+      {page:id},
+      '',
+      `#${id}`
+    );
+
+  }
+
+
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
+
+}
+
+
+navButtons.forEach(
+  b =>
+    b.addEventListener(
+      'click',
+      () => showPage(b.dataset.page)
+    )
+);
+
+
+window.addEventListener(
+  'popstate',
+  () =>
+    showPage(
+      location.hash.slice(1) || 'home',
+      false
+    )
+);
+
+
+showPage(
+  location.hash.slice(1) || 'home',
+  false
+);
+
+
+/* =========================
+   TOPICS LIST + INDIVIDUAL PAGES
+========================= */
+
+const pageLabels = {
+  economy:'Economy',
+  society:'Society',
+  life:'Life',
+  reform:'Toward Reform'
+};
+
+const topics = [
+
+  {
+    n:'1',
+    title:'The Philippine Economy During the Nineteenth Century',
+    page:'economy',
+    image:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Manila_1851.jpg?width=1400',
+    alt:'Map of Manila, 1851',
+    paragraphs:[
+      'At the start of the nineteenth century, the Philippine economy still ran largely on the logic of the Manila–Acapulco Galleon Trade: a single annual shipment linking Manila to Mexico, with little else in the way of organized commerce reaching the wider world. That system was already under strain by the 1780s, and the political shocks of the early 1800s — above all the Mexican War of Independence — cut the artery it depended on. The Galleon Trade formally ended in 1815.',
+      'What replaced it was not a single event but a slow reorientation. Colonial administrators, beginning with Governor-General Basco y Vargas, pushed the colony to support itself through agriculture and direct trade rather than through the galleon subsidy. The founding of the Royal Philippine Company in 1785 was an early attempt at this, and although the Company itself eventually failed, it set a precedent: the Philippines would now have to earn its keep through what it grew and shipped, not through a single trans-Pacific convoy.',
+      'By 1834, Manila had opened fully to world trade, and foreign merchant houses — British and American in particular — began financing the production of cash crops for export. This is the backdrop against which every other economic and social change of the century took place: land use, migration, class formation, and even education were all reshaped by the colony’s new position inside a global commercial network.'
+    ],
+    focus:'The defining economic shift of the century was the move from a closed galleon system to an open, export-driven economy tied to world trade.'
+  },
+
+  {
+    n:'2',
+    title:'The Opening of Philippine Ports to World Trade',
+    page:'economy',
+    image:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Plano_del_Puerto_de_Iloilo.jpg?width=1400',
+    alt:'Historical plan of the Port of Iloilo',
+    paragraphs:[
+      'For more than two centuries, Manila had been the only port through which Philippine trade with the outside world legally flowed, and even then only through the narrow channel of the galleon. The decline of the Royal Philippine Company in the early 1800s and the final end of the Galleon Trade in 1815 left a vacuum, and Spain gradually allowed the colony to trade more openly with foreign merchants rather than routing everything through a single state-sanctioned monopoly.',
+      'Manila’s full opening to world trade in 1834 was the clearest marker of this change. It meant that British, American, and other foreign trading houses could establish themselves in Manila, extend credit to local producers, and ship Philippine goods directly to European and Asian markets. Ports beyond Manila followed: Iloilo, Cebu, and other regional harbors were opened over the following decades, allowing provinces far from the capital — Negros, Batangas, Pampanga, Camarines — to participate directly in the export economy rather than funneling everything through Manila first.',
+      'The opening of the ports did more than move goods. It moved capital and risk into the provinces, since foreign firms often advanced money to planters in exchange for future harvests. That financing relationship, in turn, helped create the plantation economy of the later nineteenth century and gave foreign and mestizo merchants an outsized role in agricultural regions.'
+    ],
+    focus:'Port openings physically connected the provinces to the global economy, not just Manila — spreading both opportunity and dependence on foreign capital.'
+  },
+
+  {
+    n:'3',
+    title:'The Rise of Export Agriculture in the Philippines',
+    page:'economy',
+    image:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Parte_Central_del_Archipi%C3%A9lago_Filipino_(Norte_de_Panay,_Ceb%C3%BA_y_Negros,_con_las_islas_de_Tablas_y_Masbate).jpg?width=1400',
+    alt:'Historical map showing Panay, Cebu, Negros, Tablas, and Masbate',
+    paragraphs:[
+      'Once Manila and the provincial ports opened to world trade, farming in much of the Philippines stopped being oriented purely toward feeding local communities and started being oriented toward feeding foreign markets. Sugar, tobacco, abaca, indigo, coffee, cotton, and coconut all became recognizable export commodities over the course of the century, each tied to a different region and a different set of buyers in Europe, the Americas, or elsewhere in Asia.',
+      'This shift required more than good soil. It required capital to clear and plant new land, credit to survive the gap between planting and harvest, and legal and social arrangements — like the pacto de retroventa and the rise of the inquilino — that could mobilize labor and land at a larger scale than a single family farm. Foreign merchant houses and, increasingly, Chinese mestizo and Filipino landowners supplied that capital.',
+      'The consequence was a countryside that looked and functioned differently by mid-century than it had in 1780. Vast stretches of land in Negros, Batangas, and elsewhere were now organized around single cash crops, worked by tenant farmers rather than smallholders, and connected — through merchants, brokers, and shipping lines — to demand thousands of miles away.'
+    ],
+    focus:'Export agriculture reorganized both the land and the people who worked it, turning subsistence farming regions into commercial plantation economies.'
+  },
+
+  {
+    n:'4',
+    title:'The Development of Sugar and Abaca Industries',
+    page:'economy',
+    image:'https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Sweet_House_of_the_Past.jpg?width=1400',
+    alt:'Balay Negrense in Silay, associated with the late nineteenth-century sugar economy of Negros',
+    image2:'https://commons.wikimedia.org/wiki/Special:Redirect/file/AmCyc_Manila_Hemp.jpg?width=696',
+    alt2:'Manila hemp (abaca) botanical illustration published in 1879',
+    paragraphs:[
+      'Sugar and abaca stand out among the century’s export crops because of how completely they transformed the regions that grew them. Sugar production expanded rapidly in the Visayas — Iloilo first, and then increasingly Negros — once foreign merchant houses began advancing capital to planters after Manila’s opening in 1834. Negros in particular went from a comparatively marginal frontier to one of the wealthiest sugar-producing regions in the colony within a few decades, built almost entirely on credit-financed plantation agriculture.',
+      'Abaca followed a different but related path. Grown mainly in the Bicol region, abaca fiber — sold abroad as "Manila hemp" — became essential to the global shipping industry, which needed strong, durable rope and cordage as steam and sail trade expanded worldwide. Demand for abaca rose alongside the general growth of nineteenth-century maritime commerce, giving Bicol a specialized export role much as sugar gave Negros one.',
+      'Both industries illustrate the same underlying pattern: a single crop, tied to foreign demand and foreign financing, could reshape the economic identity of an entire province. They also produced new fortunes — for planters, for the merchant houses that financed them, and for the mestizo and Filipino intermediaries who moved goods and credit between the two.'
+    ],
+    focus:'Sugar (Negros) and abaca (Bicol) show how a single export crop, backed by foreign capital, could define an entire region’s economy.'
+  },
+
+  {
+    n:'5',
+    title:'The Rise of the Filipino Middle Class',
+    page:'life',
+    image:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Portrait_of_Jos%C3%A9_Rizal_(1883).jpg?width=900',
+    alt:'José Rizal in 1883, a representative figure of the educated Filipino generation',
+    paragraphs:[
+      'Export agriculture and expanding trade did not just enrich a small circle of foreign merchants — they created, over a generation or two, a genuinely new social layer in the Philippines: a Filipino and Chinese-mestizo middle class built on landownership, commerce, and, increasingly, education and professional work. This group sat between the small Spanish elite and the broad indio peasantry, and it grew steadily wealthier as the century went on.',
+      'What distinguished this middle class from earlier local elites was its ability to convert commercial wealth into education. Families that had done well from sugar, tobacco, or trade could now afford to send their sons to schools in Manila — the Ateneo Municipal, the University of Santo Tomas — and, for the wealthiest, to universities in Spain and elsewhere in Europe. Rizal’s own family in Calamba is a clear example: their agricultural and landholding wealth is what made his education, both in Manila and abroad, possible in the first place.',
+      'This new middle class became the seedbed of the ilustrado generation. Their economic security gave them the freedom to study, travel, write, and eventually organize politically in a way that earlier generations, tied more tightly to subsistence agriculture or colonial patronage, generally could not.'
+    ],
+    focus:'Economic prosperity translated directly into educational opportunity, and it was this educated middle class that produced the ilustrados.'
+  },
+
+  {
+    n:'6',
+    title:'The Chinese Mestizo in Nineteenth-Century Philippine Society',
+    page:'society',
+    image:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Mestizos_Sangley_y_Chino_by_Justiano_Asuncion.jpg?width=1200',
+    alt:'Mestizos Sangley y Chino, 1841',
+    paragraphs:[
+      'The Chinese mestizo — a person of mixed Chinese and native ancestry — occupied a distinctive and increasingly important place in Philippine colonial society during the nineteenth century. Legally and socially set apart from both "pure" Chinese residents and indios, Chinese mestizos paid their own separate tax classification and were subject to their own set of restrictions and privileges, which in practice gave many of them more room to accumulate property and status than either of the groups on either side of them.',
+      'Economically, Chinese mestizos were unusually well positioned to take advantage of the century’s commercial expansion. Many families already had a foothold in trade, moneylending, or small-scale retail through their Chinese ancestry, and they used that foothold to move into landownership, agricultural financing, and export commerce as those sectors grew. Over time, entire towns — particularly around Manila, in the Central Luzon plain, and in parts of the Visayas — developed significant, propertied Chinese-mestizo populations.',
+      'By the second half of the century, Chinese mestizos were among the wealthiest and most locally influential non-Spanish groups in the colony. Their rise is central to understanding nineteenth-century Philippine society, since it shows how ancestry, legal classification, and economic opportunity combined to reshape the social hierarchy from within.'
+    ],
+    focus:'The Chinese mestizo classification, once a narrow legal category, became a springboard for a new propertied and increasingly influential social class.'
+  },
+
+  {
+    n:'7',
+    title:'Chinese Mestizos and Their Role in Philippine Economic Development',
+    page:'economy',
+    image:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Chino_Comerciante_%26_India_de_Manila_by_Jos%C3%A9_Honorato_Lozano.jpg?width=1200',
+    alt:'Chino Comerciante and India de Manila, 1847',
+    paragraphs:[
+      'Chinese and Chinese-mestizo merchants filled a role that neither the Spanish colonial elite nor the indio peasantry was well positioned to fill: they were the connective tissue of the commercial economy. They ran retail shops, extended credit to farmers who needed capital before harvest, leased and eventually purchased agricultural land, and organized the movement of goods between rural producers and urban or foreign buyers.',
+      'This intermediary role became more, not less, important as export agriculture expanded. Sugar, abaca, and other cash crops all needed financing before they could be planted and reliable buyers once they were harvested; Chinese-mestizo merchants and moneylenders frequently supplied both. In many provinces, it was Chinese-mestizo capital — not Spanish or purely foreign capital — that financed the day-to-day operation of the plantation economy.',
+      'Over time, this commercial role let many Chinese-mestizo families convert trading profits into land, and land into local political and social standing, particularly within the principalia. Their economic function therefore had social consequences that outlasted any single harvest or trading season.'
+    ],
+    focus:'Chinese-mestizo merchants supplied the credit and commercial networks that made the export economy function on the ground.'
+  },
+
+  {
+    n:'8',
+    title:'The Chinese Mestizo Elite and Social Mobility',
+    page:'society',
+    image:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Mestizo_de_luto_by_Jos%C3%A9_Honorato_Lozano.jpg?width=1200',
+    alt:'Mestizo de luto, a 1847 Tipos del País watercolor by José Honorato Lozano',
+    paragraphs:[
+      'Not every Chinese mestizo family rose to elite status, but the ones that did followed a recognizable pattern: commercial success in trade or moneylending, reinvestment of that wealth into land, and then conversion of land and money into local office — most often through the cabeza de barangay or gobernadorcillo positions that anchored the principalia. This path, repeated across many towns, created a genuine Chinese-mestizo elite by the mid-nineteenth century.',
+      'Education followed the same logic as wealth. Families who had achieved this kind of standing often used part of their income to educate their sons, sometimes in Manila and occasionally in Europe, further cementing their families’ position and, in some cases, placing their children directly among the ilustrados of the reform generation.',
+      'Social mobility of this kind was real, but it was not unlimited. It depended heavily on already having some commercial foothold, on favorable local conditions (good land, accessible ports, cooperative colonial officials), and on family networks that could sustain investment across a generation. For families without those advantages, the same colonial social structure that allowed some Chinese mestizos to rise kept many others, indio and Chinese mestizo alike, in a much more constrained position.'
+    ],
+    focus:'Chinese-mestizo social mobility ran through a specific sequence — trade wealth, then land, then local office and education — and was far from automatic.'
+  },
+
+  {
+    n:'9',
+    title:'Chinese-Filipino Relations During the Spanish Period',
+    page:'society',
+    image:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Chino_y_Indio_by_Jos%C3%A9_Honorato_Lozano.jpg?width=1000',
+    alt:'Chino y Indio, a nineteenth-century Tipos del País watercolor',
+    paragraphs:[
+      'Relations between the Chinese community and the rest of colonial Philippine society were shaped by a persistent contradiction: the colony needed Chinese merchants, artisans, and moneylenders to keep commerce functioning, yet Spanish authorities remained deeply suspicious of the same community, restricting where they could live, taxing them more heavily than other groups, and, on several occasions across the colonial period, expelling large numbers of them outright.',
+      'The Parian — the walled Chinese quarter just outside Intramuros — is the clearest physical expression of this contradiction. It concentrated Chinese residents in one supervised area, close enough to the city to do business but separated from it for reasons of colonial control and religious anxiety about a large non-Christian population living among Filipino and Spanish Catholics.',
+      'Despite these restrictions, Chinese merchants and artisans remained indispensable throughout the Spanish period. Filipino communities depended on Chinese-run shops, credit, and skilled trades for goods and services that were not otherwise readily available, and this everyday economic dependence often coexisted uneasily with periodic waves of official suspicion and expulsion.'
+    ],
+    focus:'Chinese-Filipino relations combined real economic interdependence with recurring colonial restriction and suspicion — cooperation and control side by side.'
+  },
+
+  {
+    n:'10',
+    title:'The Rise of the Principalia and Local Elite',
+    page:'society',
+    image:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Gobernadorcillo_de_Naturales_by_Jos%C3%A9_Honorato_Lozano.jpg?width=1000',
+    alt:'Gobernadorcillo de Naturales, a nineteenth-century Tipos del País watercolor',
+    paragraphs:[
+      'The principalia — the class of cabezas de barangay, gobernadorcillos, and other local officeholders — traced its origins to the pre-colonial ruling families of the barangay, but by the nineteenth century it had become something broader and, in many towns, more open to new money. Wealth from land or trade increasingly mattered as much as inherited status in determining who held local office.',
+      'This mattered because the principalia functioned as the essential link between Spanish colonial administration and everyday Filipino life. Local officials collected tribute, organized forced labor (polo), administered local justice, and mediated between Spanish friars or officials and the townspeople. As the economy grew, families who had prospered from export agriculture or commerce were well positioned to buy into these local offices, blending old status with new wealth.',
+      'The result was a local elite that, by the mid-to-late nineteenth century, increasingly overlapped with the same landowning, commercially successful families — Filipino and Chinese mestizo alike — who were also producing the educated middle class discussed elsewhere in this account. Local power and economic power were becoming the same thing.'
+    ],
+    focus:'By the nineteenth century, local political office in the principalia was increasingly won through economic success, not only inherited status.'
+  },
+
+  {
+    n:'11',
+    title:'Education and Social Change in the Nineteenth Century',
+    page:'life',
+    image:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Escuela_Pia_ruins_at_Barcelona_Sorsogon.jpg?width=1200',
+    alt:'Ruins of Escuela Pia in Barcelona, Sorsogon, a surviving nineteenth-century school building',
+    paragraphs:[
+      'The colonial government’s 1836 order requiring every town to establish a primary school was, on paper, a modest administrative measure. In practice, it responded to — and accelerated — a real demand for literacy and basic schooling that the new commercial economy had created. Merchants, landowners, and local officials increasingly needed to read contracts, keep accounts, and correspond in writing, and a literate population was simply more useful to an economy built on trade and credit.',
+      'Above primary schooling, institutions like the Ateneo Municipal in Manila gave the sons of the new middle class a path to secondary and eventually university-level education, training many of them for professional careers in law, medicine, or the clergy rather than only for farming or local trade. The opening of the Suez Canal in 1869 compounded this effect by cutting travel time to Europe dramatically, making it realistic for wealthier families to send their sons to study in Spain.',
+      'Taken together, these changes produced, within about two generations, a small but significant population of Filipinos with a European-style education and direct exposure to European political and intellectual life — precisely the group that would go on to form the core of the Propaganda Movement.'
+    ],
+    focus:'Expanding education, both local and in Europe, created the literate, cosmopolitan generation that later drove the reform movement.'
+  },
+
+  {
+    n:'12',
+    title:'The Secularization Movement and Filipino Clergy',
+    page:'reform',
+    image:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Gomburza.jpg?width=800',
+    alt:'Fathers Mariano Gómez, José Burgos, and Jacinto Zamora (Gomburza)',
+    paragraphs:[
+      'The secularization movement centered on a specific institutional question: should Philippine parishes be administered by secular priests — many of them native or mestizo Filipinos — or by the Spanish religious orders that had historically controlled most parishes? For much of the Spanish period, the regular orders (Augustinians, Dominicans, Franciscans, and others) held the great majority of parishes, leaving relatively little room for Filipino secular clergy to rise within the Church.',
+      'By the nineteenth century, a growing number of educated Filipino priests argued that this arrangement was both unjust and increasingly out of step with a colony that had, in other respects, developed a substantial educated Filipino class. Figures who pushed for secularization argued that Filipino priests were being denied positions and advancement for reasons of race and origin rather than merit or training.',
+      'The movement’s importance goes beyond church administration. It became one of the first organized expressions of the broader claim that Filipinos deserved equal treatment with Spaniards, and its suppression — most dramatically in the executions of Fathers Gomez, Burgos, and Zamora in 1872 — directly shaped the political consciousness of the ilustrado generation that followed, Rizal among them.'
+    ],
+    focus:'Secularization was a church administration dispute that became one of the earliest concrete demands for Filipino equality within the colonial system.'
+  },
+
+  {
+    n:'13',
+    title:'The Galleon Trade and Its Economic Legacy',
+    page:'economy',
+    image:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Galleon_after_Gonz%C3%A1lez_Cabrera_Bueno_1734.png?width=1000',
+    alt:'Spanish or Manila Galleon after González Cabrera Bueno, 1734',
+    paragraphs:[
+      'For roughly two and a half centuries, the Manila–Acapulco Galleon Trade was the single organizing fact of the Philippine colonial economy. Once a year, one or two ships carried Asian goods — mostly Chinese silk and porcelain funneled through Manila — across the Pacific to Acapulco, returning with Mexican silver that financed the colonial government and enriched a small circle of Manila-based merchants, many of them Spanish or Chinese.',
+      'This system left a distinctive economic legacy even after it ended in 1815. It concentrated commercial life almost entirely in Manila, discouraged the development of export agriculture elsewhere in the archipelago (since the galleon’s cargo came largely from China, not from Philippine farms), and left much of the colony’s productive land oriented toward local subsistence rather than commercial production.',
+      'When the galleon system ended, the Philippines did not simply return to a pre-existing local economy — it had to build, largely from scratch, the export agriculture and provincial trading networks that came to define the rest of the century. In that sense, the galleon’s end is less a single turning point than the removal of an old ceiling that had been holding back a different kind of economic growth.'
+    ],
+    focus:'The galleon system concentrated wealth in Manila for centuries; its end forced the colony to build a genuinely new, export-based economy.'
+  },
+
+  {
+    n:'14',
+    title:'Social Classes in Nineteenth-Century Philippines',
+    page:'society',
+    image:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Tipos_del_Pa%C3%ADs_Scene_by_Jos%C3%A9_Honorato_Lozano.jpg?width=1000',
+    alt:'Tipos del País scene by José Honorato Lozano, 1847',
+    paragraphs:[
+      'Colonial Philippine society was organized as a hierarchy defined by birth, ancestry, religion, and — increasingly, over the nineteenth century — wealth. At the top sat the peninsulares, Spaniards born in Spain, followed by the insulares, Spaniards (or Creoles) born in the Philippines. Below them came the mestizo classes — Spanish mestizos and, in far greater numbers, Chinese mestizos — and the principalia, the local landowning and officeholding elite drawn from indio and mestizo families alike. At the base of the hierarchy were the indios, the broad mass of Christianized native Filipinos, alongside Chinese residents who had not converted to Catholicism (chino infiel), who were held at arm’s length from full participation in colonial society.',
+      'What makes the nineteenth century distinctive is how much economic change complicated this formally rigid hierarchy. Wealth from export agriculture and trade let some indio and, especially, Chinese-mestizo families accumulate land, education, and local office in ways that blurred the line between "commoner" and "elite" — even though the underlying legal categories of peninsular, insular, mestizo, and indio remained officially in place.',
+      'By the later decades of the century, then, Philippine society had two overlapping structures: an official colonial hierarchy based on ancestry and legal classification, and an increasingly important unofficial hierarchy based on land, money, and education. The tension between these two systems — formal status versus real economic power — is part of what the reform generation, and later the revolutionary generation, would eventually challenge.'
+    ],
+    focus:'Nineteenth-century Philippine society ran on two overlapping hierarchies at once: official colonial classification, and a newer one based on wealth and education.'
+  }
+
+];
+
+
+const topicsList =
+  document.getElementById('topicsList');
+
+const topicViewKicker =
+  document.getElementById('topicViewKicker');
+
+const topicViewTitle =
+  document.getElementById('topicViewTitle');
+
+const topicViewImage =
+  document.getElementById('topicViewImage');
+
+const topicViewCaption =
+  document.getElementById('topicViewCaption');
+
+const topicViewBody =
+  document.getElementById('topicViewBody');
+
+const topicViewNext =
+  document.getElementById('topicViewNext');
+
+
+function renderTopic(index){
+
+  const topic = topics[index];
+
+  topicViewKicker.textContent =
+    `Topic ${topic.n} of ${topics.length}`;
+
+  topicViewTitle.textContent =
+    topic.title;
+
+  topicViewImage.src =
+    topic.image;
+
+  topicViewImage.alt =
+    topic.alt;
+
+  const topicViewImages =
+    document.getElementById('topicViewImages');
+
+  topicViewImages.classList.toggle(
+    'has-two',
+    Boolean(topic.image2)
+  );
+
+  const existingSecond =
+    document.getElementById('topicViewImage2');
+
+  if(existingSecond) existingSecond.remove();
+
+  if(topic.image2){
+    const second = document.createElement('img');
+    second.id = 'topicViewImage2';
+    second.src = topic.image2;
+    second.alt = topic.alt2 || '';
+    topicViewImages.appendChild(second);
+
+    second.onclick = () => {
+      modalBody.innerHTML = `
+        <img
+          src="${second.src}"
+          alt="${second.alt}"
+          style="width:100%;max-height:65vh;object-fit:contain;"
+        >
+        <p style="margin-bottom:0;color:var(--soft);font-style:italic">
+          ${second.alt}
+        </p>`;
+      modal.classList.add('show');
+    };
+  }
+
+  topicViewCaption.textContent =
+    topic.image2
+      ? `${topic.alt} · ${topic.alt2}`
+      : topic.alt;
+
+  const paragraphsHtml =
+    topic.paragraphs
+      .map(p => `<p>${p}</p>`)
+      .join('');
+
+  topicViewBody.innerHTML = `
+
+    ${paragraphsHtml}
+
+    <div class="topic-focus">
+      <strong>Key idea</strong>
+      ${topic.focus}
+    </div>
+
+    <div class="topic-sources">
+      <span>Sources</span>
+      <a href="https://ncca.gov.ph/wp-content/uploads/2021/09/PHILIPPINE-HISTORY-SOURCE-BOOK-FINAL-SEP022021.pdf" target="_blank" rel="noopener">NCCA Philippine History Source Book</a>
+      <a href="https://memory.nhcp.gov.ph/articles/a-19th-century-british-company-in-manila-through-an-nhcp-rare-manuscript/" target="_blank" rel="noopener">NHCP historical context</a>
+    </div>
+
+    <div class="topic-related">
+      <span>Connects with:</span>
+      <button class="tag-btn" data-related-page="${topic.page}">
+        ${pageLabels[topic.page]} →
+      </button>
+    </div>
+
+  `;
+
+  topicViewBody
+    .querySelector('[data-related-page]')
+    .addEventListener(
+      'click',
+      e =>
+        showPage(
+          e.currentTarget.dataset.relatedPage
+        )
+    );
+
+  const nextIndex =
+    (index + 1) % topics.length;
+
+  topicViewNext.onclick =
+    () => {
+
+      renderTopic(nextIndex);
+
+      showPage('topicview');
+
+    };
+
+  topicViewImage.onclick =
+    () => {
+
+      modalBody.innerHTML = `
+
+        <img
+          src="${topicViewImage.src}"
+          alt="${topicViewImage.alt}"
+          style="
+            width:100%;
+            max-height:65vh;
+            object-fit:contain;
+          "
+        >
+
+        <p
+          style="
+            margin-bottom:0;
+            color:var(--soft);
+            font-style:italic
+          "
+        >
+          ${topicViewImage.alt}
+        </p>
+
+      `;
+
+      modal.classList.add('show');
+
+    };
+
+}
+
+
+topics.forEach((topic,index) => {
+
+  const row =
+    document.createElement('div');
+
+  row.className =
+    'card topic-row';
+
+  row.innerHTML = `
+
+    <div class="left">
+
+      <span class="num">
+        ${topic.n.padStart(2,'0')}
+      </span>
+
+      <span class="title">
+        ${topic.title}
+      </span>
+
+    </div>
+
+    <button
+      class="tag-btn"
+      type="button"
+    >
+      Read →
+    </button>
+
+  `;
+
+  row
+    .querySelector('.tag-btn')
+    .addEventListener(
+      'click',
+      () => {
+
+        renderTopic(index);
+
+        showPage('topicview');
+
+      }
+    );
+
+  topicsList.appendChild(row);
+
+});
+
+
+/* =========================
+   TIMELINE
+========================= */
+
+const events = [
+
+  { year:1778, tag:'Basco arrives', title:'Basco y Vargas takes office', cat:'economy',
+    desc:'Jose de Basco y Vargas arrives as the first governor-general appointed under Bourbon rule, tasked with making the Philippines pay its own way.',
+    img:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Manila_1851.jpg?width=1200', alt:'Map of Old Manila, 1851',
+    note:'Manila — the seat Basco governed from — as it was later mapped in 1851.' },
+
+  { year:1785, tag:'Royal Philippine Co.', title:'The Royal Philippine Company is founded', cat:'economy',
+    desc:'Basco establishes the Company to finance agriculture and manage new trade with Spain, Europe, and Asian markets — the first real break from the galleon system.',
+    img:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Galleon_after_Gonz%C3%A1lez_Cabrera_Bueno_1734.png?width=1000', alt:'Spanish or Manila Galleon after González Cabrera Bueno, 1734',
+    note:'The Company was built to compete with — and eventually replace — ships like this galleon.' },
+
+  { year:1792, tag:'The Parian thrives', title:'Manila’s Chinese quarter at its height', cat:'society',
+    desc:'A watercolor from this exact year shows the Parian, the walled Chinese district just outside Intramuros — the commercial engine the colony depended on even as it kept the community at arm’s length.',
+    img:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Parian_de_Manila_en_1792.jpg?width=1200', alt:'Parian de Manila en 1792',
+    note:'A period depiction of the Parian, dated to 1792 itself.' },
+
+  { year:1810, tag:'Mexican independence', title:'The Mexican War of Independence begins', cat:'economy',
+    desc:'Spain’s grip on its Latin American colonies starts to slip, threatening the future of the Manila–Acapulco Galleon Trade that ran through Manila’s harbor.',
+    img:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Manila_1851.jpg?width=1200', alt:'Map of Old Manila, 1851',
+    note:'Manila’s harbor — the Philippine end of the trans-Pacific route now at risk.' },
+
+  { year:1815, tag:'Galleon Trade ends', title:'The Manila–Acapulco Galleon Trade formally ends', cat:'economy',
+    desc:'After roughly two and a half centuries, the galleon system that had anchored the colonial economy comes to a close, pushing the Philippines toward direct international trade.',
+    img:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Galleon_after_Gonz%C3%A1lez_Cabrera_Bueno_1734.png?width=1000', alt:'Spanish or Manila Galleon after González Cabrera Bueno, 1734',
+    note:'The very type of ship whose annual voyage came to an end in 1815.' },
+
+  { year:1834, tag:'Manila opens', title:'Manila opens to world trade', cat:'economy',
+    desc:'The Royal Philippine Company closes and Manila opens fully to global commerce. British and American merchant houses move in to finance the new export economy.',
+    img:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Manila_1851.jpg?width=1200', alt:'Map of Old Manila, 1851',
+    note:'The port district foreign merchant houses entered once it opened.' },
+
+  { year:1836, tag:'Schools ordered', title:'Primary schools ordered in every town', cat:'life',
+    desc:'The colonial government mandates that every town establish a primary school, answering the new economy’s demand for a literate, professional workforce.',
+    img:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Escuela_Pia_ruins_at_Barcelona_Sorsogon.jpg?width=1200', alt:'Ruins of Escuela Pia, Barcelona, Sorsogon',
+    note:'A surviving nineteenth-century Philippine schoolhouse, of the kind this order created.' },
+
+  { year:1841, tag:'Mestizo prosperity', title:'A Chinese mestizo, painted', cat:'society',
+    desc:'A watercolor from this exact year portrays a Chinese mestizo — visible evidence of the wealth this class was accumulating through trade and landholding well before mid-century.',
+    img:'https://commons.wikimedia.org/wiki/Special:Redirect/file/El_Mestiso_by_Justiniano_Asuncion.jpg?width=700', alt:'El Mestiso, a 19th-century Tipos del País watercolor',
+    note:'"El Mestiso" by Justiniano Asunción, dated 1841 — the same year as this entry.' },
+
+  { year:1847, tag:'Tipos del País', title:'Lozano paints Manila’s social mosaic', cat:'society',
+    desc:'Painter José Honorato Lozano produces a series of watercolors this year cataloguing the colony’s social types — including local officials drawn from the principalia.',
+    img:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Gobernadorcillo_de_Naturales_by_Jos%C3%A9_Honorato_Lozano.jpg?width=1000', alt:'Gobernadorcillo de Naturales, a 19th-century Tipos del País watercolor',
+    note:'One of Lozano’s 1847 "Tipos del País" watercolors, matching this entry’s date.' },
+
+  { year:1849, tag:'Surnames decreed', title:'Claveria’s decree on surnames', cat:'society',
+    desc:'Governor-General Narciso Claveria issues the Catalogo de apellidos, requiring fixed surnames and tightening the colonial state’s ability to track and tax its subjects.',
+    img:'https://commons.wikimedia.org/wiki/Special:Redirect/file/El_teniente_general_Narciso_Claver%C3%ADa_y_Zald%C3%BAa%2C_conde_de_Manila_%28Museo_del_Prado%29.jpg?width=700', alt:'Portrait of Narciso Clavería y Zaldúa',
+    note:'Narciso Clavería himself — the governor-general who issued this exact decree.' },
+
+  { year:1855, tag:'Iloilo opens', title:'Iloilo opens as an international port', cat:'economy',
+    desc:'Iloilo becomes a treaty port, letting the sugar-growing Visayas trade directly with foreign buyers instead of routing everything through Manila.',
+    img:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Plano_del_Puerto_de_Iloilo.jpg?width=1200', alt:'Historical plan of the Port of Iloilo',
+    note:'A period plan of the Port of Iloilo, the harbor this entry describes.' },
+
+  { year:1856, tag:'Negros sugar boom', title:'Negros becomes a sugar frontier', cat:'economy',
+    desc:'Foreign capital and Iloilo’s new port fuel a rapid expansion of sugar planting in Negros, turning a once-marginal island into one of the wealthiest agricultural regions in the colony.',
+    img:'https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Sweet_House_of_the_Past.jpg?width=1400', alt:'Balay Negrense in Silay, associated with the sugar economy of Negros',
+    note:'A planter’s house in Silay, Negros — built on the wealth this sugar boom created.' },
+
+  { year:1860, tag:'Cebu opens', title:'Cebu opens to foreign trade', cat:'economy',
+    desc:'A second Visayan port opens to direct international commerce, spreading the export economy further across the central islands.',
+    img:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Parte_Central_del_Archipi%C3%A9lago_Filipino_(Norte_de_Panay,_Ceb%C3%BA_y_Negros,_con_las_islas_de_Tablas_y_Masbate).jpg?width=1200', alt:'Map showing Panay, Cebu, and Negros',
+    note:'A period map of the very islands — Panay, Cebu, Negros — this trade expansion connected.' },
+
+  { year:1863, tag:'Education decree', title:'A colony-wide system of free primary schools', cat:'life',
+    desc:'A royal decree establishes free public primary education and teacher training, expanding literacy just as the export economy needs more clerks, accountants, and professionals.',
+    img:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Escuela_Pia_ruins_at_Barcelona_Sorsogon.jpg?width=1200', alt:'Ruins of Escuela Pia, Barcelona, Sorsogon',
+    note:'A schoolhouse of the same era this decree expanded across the colony.' },
+
+  { year:1869, tag:'Suez Canal opens', title:'The Suez Canal opens', cat:'life',
+    desc:'The new canal shortens the voyage between the Philippines and Europe, making it far easier for Filipino families to send their children abroad to study — accelerating the rise of the ilustrados.',
+    img:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Le_Canal_Maritime_de_Suez_1869_(148057550).jpg?width=1200', alt:'Le Canal Maritime de Suez illustré, 1869',
+    note:'An 1869 illustration of the canal itself, published the year it opened.' },
+
+  { year:1872, tag:'Cavite Mutiny & Gomburza', title:'A mutiny in Cavite, then three executions', cat:'reform',
+    desc:'A brief mutiny among soldiers and workers at the Cavite arsenal is used to implicate three Filipino secular priests — Fathers Gómez, Burgos, and Zamora — who are executed within weeks. Their deaths turn a church-administration dispute into a defining grievance for the reform generation that follows.',
+    img:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Gomburza.jpg?width=1200', alt:'Fathers Mariano Gómez, José Burgos, and Jacinto Zamora',
+    note:'Fathers Gómez, Burgos, and Zamora — the three priests executed this year.' }
+
+];
+
+const htimelineScroll = document.getElementById('htimelineScroll');
+const htimelineFill = document.getElementById('htimelineFill');
+const timelineDetail = document.getElementById('timelineDetail');
+const htimelineBadge = document.getElementById('htimelineBadge');
+const htimelinePrevBtn = document.getElementById('htimelinePrev');
+const htimelineNextBtn = document.getElementById('htimelineNext');
+const htimelineNodes = [];
+let htimelineActive = 0;
+
+const hMinYear = events[0].year;
+const hMaxYear = events[events.length-1].year;
+const hSpan = hMaxYear - hMinYear;
+const H_TRACK_WIDTH = 1700;
+const H_INSET = 100;
+
+function renderTimelineDetail(e){
+  timelineDetail.innerHTML = `
+    <div class="detail-media">
+      <img src="${e.img}" alt="${e.alt}">
+      <div>
+        <div class="kicker">${e.year} · ${e.tag}</div>
+        <h3>${e.title}</h3>
+        <p>${e.desc}</p>
+        <small class="image-caption">${e.note}</small>
+      </div>
+    </div>`;
+}
+
+function setHActive(index){
+  htimelineActive = index;
+  htimelineNodes.forEach((n,i)=>n.classList.toggle('active', i===index));
+  const pct = hSpan ? ((events[index].year - hMinYear) / hSpan) : 0;
+  htimelineFill.style.width = (H_INSET + pct * (H_TRACK_WIDTH - H_INSET*2)) + 'px';
+  htimelineBadge.textContent = `${index+1} of ${events.length} · ${events[index].year}`;
+  htimelinePrevBtn.disabled = index === 0;
+  htimelineNextBtn.disabled = index === events.length-1;
+  renderTimelineDetail(events[index]);
+  const node = htimelineNodes[index];
+  if(node){
+    document.getElementById('htimeline').scrollTo({
+      left: Math.max(0, node.offsetLeft - 220),
+      behavior:'smooth'
+    });
+  }
+}
+
+events.forEach((e,i)=>{
+  const pct = hSpan ? ((e.year - hMinYear) / hSpan) : 0;
+  const leftPx = H_INSET + pct * (H_TRACK_WIDTH - H_INSET*2);
+  const node = document.createElement('button');
+  node.type = 'button';
+  node.className = 'htimeline-node ' + (i % 2 === 0 ? 'pos-up' : 'pos-down');
+  node.style.left = leftPx + 'px';
+  node.innerHTML = `
+    <span class="htimeline-year">${e.year}</span>
+    <span class="htimeline-label">${e.tag}</span>`;
+  node.addEventListener('click', ()=> setHActive(i));
+  htimelineScroll.appendChild(node);
+  htimelineNodes.push(node);
+});
+
+function stepH(delta){
+  const next = Math.min(events.length-1, Math.max(0, htimelineActive + delta));
+  if(next !== htimelineActive) setHActive(next);
+}
+
+htimelinePrevBtn.onclick = ()=> stepH(-1);
+htimelineNextBtn.onclick = ()=> stepH(1);
+
+document.addEventListener('keydown', e=>{
+  if(!document.getElementById('timeline').classList.contains('active')) return;
+  if(e.key === 'ArrowRight'){ stepH(1); }
+  else if(e.key === 'ArrowLeft'){ stepH(-1); }
+});
+
+setHActive(0);
+
+
+/* =========================
+   CROPS
+========================= */
+
+const crops = [
+
+  [
+    'Tobacco',
+    'Placed under a state monopoly by Basco’s reforms, tobacco became one of the most tightly controlled — and profitable — crops in the colony, grown under government contract in designated provinces.'
+  ],
+
+  [
+    'Sugar',
+    'Sugar production expanded rapidly once foreign merchant houses began financing plantations after 1834, becoming one of the leading cash crops of the century, especially in Iloilo and Negros.'
+  ],
+
+  [
+    'Abaca',
+    'Known abroad as Manila hemp, abaca fiber was in high demand for rope and cordage as global shipping and industry expanded.'
+  ],
+
+  [
+    'Indigo',
+    'Valued as a dye for the textile industries of an industrializing Europe, indigo was among the earliest cash crops to draw foreign investment.'
+  ],
+
+  [
+    'Coffee',
+    'Philippine coffee found a growing export market as demand for the crop spread across Europe and the Americas through the century.'
+  ],
+
+  [
+    'Cotton',
+    'Cotton rounded out the archipelago’s early export basket, feeding the textile mills multiplying across an industrializing world.'
+  ],
+
+  [
+    'Coconut',
+    'Coconut products joined the export trade as the century went on, adding another commodity to the provinces’ growing commercial output.'
+  ]
+
+];
+
+
+const cropTabs =
+  document.getElementById(
+    'cropTabs'
+  );
+
+const cropPanel =
+  document.getElementById(
+    'cropPanel'
+  );
+
+
+crops.forEach(
+  (c,i) => {
+
+    let b =
+      document.createElement('button');
+
+    b.textContent =
+      c[0];
+
+
+    b.onclick = () => {
+
+      document
+        .querySelectorAll(
+          '#cropTabs button'
+        )
+        .forEach(
+          x =>
+            x.classList.remove(
+              'active'
+            )
+        );
+
+
+      b.classList.add(
+        'active'
+      );
+
+
+      cropPanel.innerHTML = `
+
+        <h3>
+          ${c[0]}
+        </h3>
+
+        <p>
+          ${c[1]}
+        </p>
+
+      `;
+
+    };
+
+
+    cropTabs.appendChild(b);
+
+
+    if(i === 0)
+      b.click();
+
+  }
+);
+
+
+/* =========================
+   SOCIAL HIERARCHY
+========================= */
+
+const classes = [
+
+  [
+    'Peninsulares',
+    'Pure-blooded Spaniards born in Spain itself. At the top of the hierarchy by birth, though by the nineteenth century increasingly outpaced in wealth by the mestizo class below them.',
+    'https://commons.wikimedia.org/wiki/Special:Redirect/file/El_teniente_general_Narciso_Claver%C3%ADa_y_Zald%C3%BAa%2C_conde_de_Manila_%28Museo_del_Prado%29.jpg?width=700',
+    'Portrait of Narciso Clavería y Zaldúa, a Spanish Governor-General of the Philippines',
+    'Narciso Clavería y Zaldúa — 19th-century portrait, Museo del Prado / Wikimedia Commons'
+  ],
+
+  [
+    'Insulares',
+    'Pure-blooded Spaniards, or Creoles, born in the Philippines — Spanish by blood, but colonial by birth, occupying a slightly lower rung than peninsulares in a hierarchy built on where you were born.',
+    'https://commons.wikimedia.org/wiki/Special:Redirect/file/Filipino_painter_Lorenzo_Rocha_y_de_Ycaza.jpg?width=700',
+    'Portrait of Lorenzo Rocha y de Ycaza, identified as a Filipino Criollo or Insular',
+    'Lorenzo Rocha y de Ycaza — Wikimedia Commons'
+  ],
+
+  [
+    'Mestizos',
+    'Those of mixed parentage: Spanish mestizos, with one Spanish and one native parent, and Chinese mestizos, with one Chinese and one native parent. This class grew wealthier and more influential across the century.',
+    'https://commons.wikimedia.org/wiki/Special:Redirect/file/El_Mestiso_by_Justiniano_Asuncion.jpg?width=700',
+    'El Mestiso, a 19th-century Tipos del País watercolor by Justiniano Asunción',
+    'El Mestiso by Justiniano Asunción, 1841 — Wikimedia Commons'
+  ],
+
+  [
+    'Principalia',
+    'The local elite — wealthy landowners, cabeza de barangay, and gobernadorcillos — traditionally descended from the pre-colonial ruling (kadatoan) class. Alongside the mestizos, they became the century’s rising economic and social force.',
+    'https://commons.wikimedia.org/wiki/Special:Redirect/file/Gobernadorcillo_de_Naturales_by_Jos%C3%A9_Honorato_Lozano.jpg?width=700',
+    'Gobernadorcillo de Naturales, a 19th-century Tipos del País watercolor',
+    'Gobernadorcillo de Naturales by José Honorato Lozano, 1847 — Wikimedia Commons'
+  ],
+
+  [
+    'Indios',
+    'The Spanish colonial term for Christianized native Filipinos — the broad base of colonial society, and the class from which tenant farmers and kasama were increasingly drawn as land became concentrated.',
+    'https://commons.wikimedia.org/wiki/Special:Redirect/file/Indios_by_Jos%C3%A9_Honorato_Lozano.jpg?width=700',
+    'Indios, a 19th-century Tipos del País watercolor by José Honorato Lozano',
+    'Indios by José Honorato Lozano, 1847 — Wikimedia Commons'
+  ],
+
+  [
+    'Chino infiel',
+    'Non-Catholic, pure-blooded Chinese residents — economically vital to the colony’s trade, yet held at arm’s length by Spanish suspicion and confined largely to the Parian enclave.',
+    'https://commons.wikimedia.org/wiki/Special:Redirect/file/Chino_Comerciante_%26_India_de_Manila_by_Jos%C3%A9_Honorato_Lozano.jpg?width=700',
+    'Chino Comerciante & India de Manila, a 19th-century Tipos del País watercolor',
+    'Chino Comerciante & India de Manila by José Honorato Lozano — Wikimedia Commons'
+  ]
+
+];
+
+
+const pyramid =
+  document.getElementById(
+    'pyramid'
+  );
+
+const pDetail =
+  document.getElementById(
+    'pDetail'
+  );
+
+
+classes.forEach(
+  (c,i) => {
+
+    let b =
+      document.createElement(
+        'button'
+      );
+
+    b.className =
+      'band';
+
+    b.textContent =
+      c[0];
+
+
+    b.onclick = () => {
+
+      document
+        .querySelectorAll(
+          '.band'
+        )
+        .forEach(
+          x =>
+            x.classList.remove(
+              'active'
+            )
+        );
+
+
+      b.classList.add(
+        'active'
+      );
+
+
+      pDetail.innerHTML = `
+
+        <div class="detail-media">
+
+          <img
+            src="${c[2]}"
+            alt="${c[3]}"
+            loading="lazy"
+          >
+
+          <div>
+
+            <h3>
+              ${c[0]}
+            </h3>
+
+            <p>
+              ${c[1]}
+            </p>
+
+            <small class="image-caption">
+              ${c[4]}
+            </small>
+
+          </div>
+
+        </div>
+
+      `;
+
+    };
+
+
+    pyramid.appendChild(b);
+
+
+    if(i === 0){
+
+      b.classList.add(
+        'active'
+      );
+
+      pDetail.innerHTML = `
+
+        <div class="detail-media">
+
+          <img
+            src="${c[2]}"
+            alt="${c[3]}"
+            loading="lazy"
+          >
+
+          <div>
+
+            <h3>
+              ${c[0]}
+            </h3>
+
+            <p>
+              ${c[1]}
+            </p>
+
+            <small class="image-caption">
+              ${c[4]}
+            </small>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+  }
+);
+
+
+/* =========================
+   IMAGE MODAL
+========================= */
+
+const modal =
+  document.getElementById(
+    'modal'
+  );
+
+const modalBody =
+  document.getElementById(
+    'modalBody'
+  );
+
+
+document
+  .querySelectorAll(
+    '.image-card img,.visual img'
+  )
+  .forEach(
+    img =>
+      img.addEventListener(
+        'click',
+        () => {
+
+          modalBody.innerHTML = `
+
+            <img
+              src="${img.src}"
+              alt="${img.alt}"
+              style="
+                width:100%;
+                max-height:65vh;
+                object-fit:contain;
+              "
+            >
+
+            <p
+              style="
+                margin-bottom:0;
+                color:var(--soft);
+                font-style:italic
+              "
+            >
+              ${img.alt}
+            </p>
+
+          `;
+
+
+          modal.classList.add(
+            'show'
+          );
+
+        }
+      )
+  );
+
+
+document
+  .getElementById(
+    'closeModal'
+  )
+  .onclick =
+    () =>
+      modal.classList.remove(
+        'show'
+      );
+
+
+modal.addEventListener(
+  'click',
+  e => {
+
+    if(e.target === modal){
+
+      modal.classList.remove(
+        'show'
+      );
+
+    }
+
+  }
+);
+
+
+document.addEventListener(
+  'keydown',
+  e => {
+
+    if(e.key === 'Escape'){
+
+      modal.classList.remove(
+        'show'
+      );
+
+    }
+
+  }
+);
+
+
+
+/* Explore dropdown */
+(function(){
+  const dropdown=document.querySelector('.nav-dropdown');
+  const toggle=dropdown?.querySelector('.nav-dropdown-toggle');
+  if(!dropdown||!toggle) return;
+  toggle.addEventListener('click',e=>{ e.stopPropagation(); const open=dropdown.classList.toggle('open'); toggle.setAttribute('aria-expanded',String(open)); });
+  document.addEventListener('click',e=>{ if(!dropdown.contains(e.target)){ dropdown.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); } });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ dropdown.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); } });
+})();
+
+/* =========================
+   COMBINED: THEME TOGGLE
+========================= */
+(function(){
+  const root=document.documentElement;
+  const mainnav=document.querySelector('.nav');
+  if(!mainnav) return;
+  const toggle=document.createElement('button');
+  toggle.className='theme-toggle';
+  toggle.type='button';
+  const iconMoon='<svg viewBox="0 0 24 24"><path d="M20.5 14.4A8.5 8.5 0 0 1 9.6 3.5 8.5 8.5 0 1 0 20.5 14.4Z"/></svg>';
+  const iconSun='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>';
+  function setTheme(theme){
+    root.dataset.theme=theme;
+    toggle.innerHTML=theme==='dark'?iconSun:iconMoon;
+    toggle.setAttribute('aria-label',theme==='dark'?'Switch to light theme':'Switch to dark theme');
+    try{localStorage.setItem('chapter-theme',theme)}catch(e){}
+  }
+  let stored=null;
+  try{stored=localStorage.getItem('chapter-theme')}catch(e){}
+  setTheme(stored==='light'||stored==='dark'?stored:'light');
+  toggle.addEventListener('click',()=>setTheme(root.dataset.theme==='dark'?'light':'dark'));
+  const actions=document.createElement('div');
+  actions.className='topbar-actions';
+  mainnav.parentNode.insertBefore(actions,mainnav);
+  actions.appendChild(mainnav);
+  actions.appendChild(toggle);
+})();
+
+/* =========================
+   COMBINED: BACK TO TOP
+========================= */
+(function(){
+  const back=document.createElement('button');
+  back.className='back-to-top';
+  back.type='button';
+  back.innerHTML='↑';
+  back.setAttribute('aria-label','Back to top');
+  document.body.appendChild(back);
+  function update(){back.classList.toggle('visible',window.scrollY>340)}
+  window.addEventListener('scroll',update,{passive:true});
+  back.addEventListener('click',()=>window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'}));
+  update();
+})();
+
+/* =========================
+   COMBINED: FOUR THEMES
+========================= */
+const studyThemes = [
+  {
+    label:'Economy & Trade',
+    title:'From galleon to global market',
+    subtitle:'Export agriculture takes hold',
+    paragraphs:[
+      'The Manila galleon had been the colony’s major economic lifeline for roughly two and a half centuries; its end in 1815 forced a search for new income. The opening of Manila to world trade in 1834, followed by other ports, allowed foreign trading houses to deal more directly with local producers.',
+      'Sugar expanded in the Visayas, especially Negros and Iloilo; abaca became an important Bicol export; tobacco remained under a state monopoly. Land that had once been oriented more toward local production increasingly entered a cash-crop economy tied to overseas demand.',
+      'This reorientation reshaped the countryside as much as the harbor. Foreign merchant houses advanced credit to planters ahead of harvest, which pulled provinces like Negros and Batangas into a plantation system organized around a single cash crop. That same financing relationship encouraged practices such as the pacto de retroventa, and, over a generation or two, helped turn many smallholders into tenants — a kasama on land their family had once owned outright.',
+      'By the second half of the century, the archipelago’s economic geography looked genuinely different from 1780: Manila no longer stood alone as the colony’s only commercial gateway, and provincial ports carried goods, credit, and risk directly between local producers and buyers overseas.'
+    ],
+    stats:[['1815','Galleon Trade ends'],['1834','Manila opens to world trade'],['3','Major exports highlighted'],['5','Ports highlighted by mid-century'],['7','Export commodities in the ledger'],['4','Steps from smallholder to tenant']]
+  },
+  {
+    label:'Chinese Mestizo',
+    title:'A new commercial class',
+    subtitle:'Land, trade, and social mobility',
+    paragraphs:[
+      'The Chinese mestizo occupied a distinctive position between the colonial categories of Chinese residents and indios. Many families built wealth through trade, landholding, agricultural finance, retail, leasing, and export commerce.',
+      'Economic success could be converted into education, local office, and social influence. This made Chinese-mestizo families important to the growth of the middle class and the local elite, while social mobility remained dependent on wealth, family networks, and local conditions.',
+      'This group also filled a role few others were positioned to fill: they supplied the credit and commercial links that kept the export economy running on the ground, financing farmers ahead of harvest and moving goods between rural producers and urban or foreign buyers. Over time, many Chinese-mestizo families followed a recognizable path — trading profits converted into land, land converted into local office within the principalia, and income increasingly spent on educating the next generation.',
+      'Rizal’s own family in Calamba illustrates the pattern: agricultural and landholding wealth of exactly this kind is what made his schooling in Manila and abroad possible, linking the Chinese-mestizo commercial rise directly to the education thread discussed elsewhere in this guide.'
+    ],
+    stats:[['200,000+','Figure used in the original study guide'],['35,000','Comparison figure for Spanish mestizos'],['3','Core regions highlighted'],['3','Steps in the typical mobility path']]
+  },
+  {
+    label:'Society & Class',
+    title:'A layered social order',
+    subtitle:'Principalia, tenants, and the middle class',
+    paragraphs:[
+      'The principalia included hereditary and locally established town officials such as the gobernadorcillo and cabeza de barangay. Economic change increasingly connected local office with landholding and commercial success.',
+      'Below and around this elite were different groups of cultivators and tenants, including inquilinos and kasama. At the same time, prosperous merchant, landholding, and educated families formed a growing middle class that supplied many of the ilustrados.',
+      'Formally, colonial society still ran on a fixed order of birth and ancestry — peninsulares and insulares at the top, mestizos and the principalia beneath them, indios and the chino infiel at the base. But by mid-century a second, unofficial hierarchy based on land, money, and education was overlapping with that formal one, letting some indio and Chinese-mestizo families rise even though their legal classification never changed.',
+      'It is this tension between formal status and real economic power — visible in the pyramid above — that later reform and revolutionary movements would eventually challenge directly.'
+    ],
+    stats:[['6','Classes shown in the hierarchy'],['4','Major strata emphasized'],['1','Emerging educated middle class'],['2','Overlapping hierarchies — legal and economic']]
+  },
+  {
+    label:'Education & Reform',
+    title:'Schooling and the secularization crisis',
+    subtitle:'1836–1872',
+    paragraphs:[
+      'The nineteenth century saw important changes in schooling and intellectual life. An 1836 order first required every town to open a primary school, and the 1863 educational decree went further, establishing a system of free primary instruction in towns along with measures for teacher preparation and Spanish-language instruction.',
+      'Religious administration was also contested through the secularization movement, which concerned whether parishes should be held by religious orders or secular clergy, including Filipino priests. The execution of Mariano Gómez, José Burgos, and Jacinto Zamora in 1872 became an important reference point in later narratives of Filipino reform and nationalism.',
+      'These currents converged rather than running separately. Schools such as the Ateneo Municipal trained the sons of the new middle class described elsewhere in this guide, and the 1869 opening of the Suez Canal cut travel time to Europe, making study abroad far more realistic for families who could afford it. That combination of local schooling, university training, and European exposure produced the small, literate, cosmopolitan generation — Rizal, del Pilar, Lopez Jaena, Ponce among them — who carried the reform agenda forward after 1872.'
+    ],
+    stats:[['1836','Town schools first ordered'],['1863','Education decree'],['1869','Suez Canal opens'],['1872','Execution of Gomburza'],['1','Major turning point in the reform narrative']]
+  },
+  {
+    label:'Toward Nationalism',
+    title:'Where the four threads meet',
+    subtitle:'Synthesis',
+    paragraphs:[
+      'Taken together, the previous four threads describe one connected process rather than four separate stories. Economic change financed a new middle class; that middle class was disproportionately Chinese mestizo and increasingly overlapped with the principalia; its wealth bought education at home and, after 1869, abroad; and the shock of the 1872 executions gave that educated generation a shared grievance.',
+      'The result, by the early 1870s, was a small but articulate class of Filipinos with the means, the schooling, and now the motive to ask why colonial status and legal classification should still determine a person’s rights when land, money, and education increasingly did not follow the old lines. Their demands — equality with Spaniards, representation in the Cortes, secularization, freedom of expression, and reform of abuses — form the closing agenda covered on the Reform page.',
+      'In that sense, the century’s ledgers, monopolies, migrations, and decrees did not set out to create a national consciousness, but the cumulative economic and social change they produced is exactly what made the Propaganda Movement, and Rizal’s own generation, possible.'
+    ],
+    stats:[['4','Threads synthesized here'],['1872','Shared turning point'],['7','Reform demands carried forward']]
+  }
+];
+
+(function(){
+  const tabs=document.getElementById('studyTabs');
+  const panels=document.getElementById('studyPanels');
+  if(!tabs||!panels) return;
+
+  studyThemes.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.type='button';
+    b.textContent=s.label;
+    b.addEventListener('click',()=>showStudy(i));
+    tabs.appendChild(b);
+
+    const panel=document.createElement('div');
+    panel.className='study-panel'+(i===0?' active':'');
+    panel.innerHTML=`
+      <div class="card">
+        <div class="kicker">${s.label}</div>
+        <h3 style="font-size:2rem;margin:8px 0 2px">${s.title}</h3>
+        <p style="color:var(--seal);font-style:italic;margin-top:0">${s.subtitle}</p>
+        ${s.paragraphs.map(p=>`<p>${p}</p>`).join('')}
+        <div class="study-grid">
+          ${s.stats.map(x=>`<div class="study-stat"><b>${x[0]}</b><span>${x[1]}</span></div>`).join('')}
+        </div>
+      </div>`;
+    panels.appendChild(panel);
+  });
+
+  function showStudy(i){
+    [...tabs.children].forEach((b,j)=>b.classList.toggle('active',j===i));
+    [...panels.children].forEach((p,j)=>p.classList.toggle('active',j===i));
+  }
+  showStudy(0);
+})();
+
+/* =========================
+   COMBINED: QUIZ
+========================= */
+const combinedQuizPool = [
+  {q:'In what year did the Manila–Acapulco Galleon Trade formally end?',opts:['1815','1834','1863','1872'],a:0,fb:'1815 — the end of the galleon system marked a major economic transition.'},
+  {q:'When did Manila open fully to world trade?',opts:['1785','1810','1834','1869'],a:2,fb:'1834 — Manila’s opening helped bring foreign merchant houses into the expanding export economy.'},
+  {q:'Which export crop was especially important in Bicol and known abroad as Manila hemp?',opts:['Sugar','Abaca','Coffee','Cotton'],a:1,fb:'Abaca — its strong fiber was widely used for rope and cordage.'},
+  {q:'What was the inquilino?',opts:['A long-term leaseholder on an estate','A Spanish governor','A foreign merchant','A parish priest'],a:0,fb:'An inquilino was a long-term leaseholder, often on a hacienda or friar estate.'},
+  {q:'Which group served as local town officials and formed part of the principalia?',opts:['Cabezas de barangay and gobernadorcillos','Peninsulares only','Foreign merchant houses','Guardia Civil only'],a:0,fb:'Cabezas de barangay and gobernadorcillos were important figures in the local elite or principalia.'},
+  {q:'What did the 1863 educational decree establish?',opts:['The end of the galleon trade','A system of free primary schools in towns','The Suez Canal','The Tobacco Monopoly'],a:1,fb:'The 1863 decree is associated with the expansion of public primary schooling.'},
+  {q:'Which three Filipino priests were executed in 1872 and became central to later reform narratives?',opts:['Rizal, del Pilar, Jaena','Gómez, Burgos, Zamora','Ponce, Mabini, Luna','Basco, Claveria, Izquierdo'],a:1,fb:'Mariano Gómez, José Burgos, and Jacinto Zamora — remembered collectively as Gomburza.'},
+  {q:'Which development most directly connected Philippine producers to overseas markets?',opts:['The opening of ports to world trade','The creation of the Parian','The use of surnames','The abolition of local schools'],a:0,fb:'Port openings allowed goods, capital, and merchant networks to connect provincial producers with international trade.'},
+  {q:'Which event increased the speed of travel and communication between the Philippines and Europe in the nineteenth century?',opts:['The opening of the Suez Canal in 1869','The founding of the Parian','The end of the Tobacco Monopoly','The 1849 surname decree'],a:0,fb:'The Suez Canal opened in 1869 and shortened the sea route between Europe and Asia.'},
+  {q:'Which province became especially associated with the nineteenth-century sugar industry?',opts:['Negros','Camarines Norte','Ilocos Norte','Bataan'],a:0,fb:'Negros became a major sugar-producing region as export agriculture expanded.'},
+  {q:'What was one important economic role of Chinese and Chinese-mestizo merchants?',opts:['Connecting local markets with trade and credit','Replacing all Spanish officials','Operating the Suez Canal','Ending agricultural exports'],a:0,fb:'Chinese and Chinese-mestizo merchants participated in retail, trade, credit, and agricultural commerce.'},
+  {q:'What term referred to people of Spanish descent born in the Philippines?',opts:['Insulares','Peninsulares','Indios','Chino infiel'],a:0,fb:'Insulares referred to Spaniards born in the Philippines, in contrast to peninsulares born in Spain.'},
+  {q:'What term was commonly used in the colonial classification for Spaniards born in Spain?',opts:['Peninsulares','Insulares','Mestizos','Principalia'],a:0,fb:'Peninsulares were Spaniards born in the Iberian Peninsula.'},
+  {q:'Which social group was associated with local hereditary or office-holding elites under Spanish colonial rule?',opts:['Principalia','Guardia Civil','Foreign merchant houses','Galleon crews'],a:0,fb:'The principalia consisted of local elites who held recognized positions and often worked within colonial administration.'},
+  {q:'What major economic shift followed the decline of the galleon trade?',opts:['Greater emphasis on international commerce and exports','A complete end to overseas trade','A return to an exclusively subsistence economy','The closure of all Philippine ports'],a:0,fb:'The post-galleon period saw greater international commerce and growth in export-oriented agriculture.'},
+  {q:'Which crop was strongly associated with the Visayas sugar economy?',opts:['Sugar','Abaca','Indigo','Cotton'],a:0,fb:'Sugar became a major export crop in the Visayas, particularly in Negros.'},
+  {q:'What was one effect of expanding export agriculture on land and labor relations?',opts:['Greater pressure over land, debt, and labor','The disappearance of all tenancy','The end of agricultural production','Universal land ownership'],a:0,fb:'Export agriculture intensified questions involving landholding, debt, tenancy, and labor.'},
+  {q:'Why did education become important to the emerging Filipino middle class?',opts:['It created opportunities for professional and social mobility','It ended all colonial classifications','It replaced agriculture as the only source of wealth','It abolished local government'],a:0,fb:'Education could provide access to professions, new ideas, and forms of social mobility.'},
+  {q:'Which group is most closely associated with the emerging educated Filipino middle class?',opts:['Ilustrados','Galleon crews','Guardia Civil','Peninsulares'],a:0,fb:'The ilustrados were educated Filipinos who became prominent in intellectual and reform circles.'},
+  {q:'What was the Parian historically associated with?',opts:['A Chinese settlement and commercial community in Manila','A sugar plantation in Negros','A school decree in 1863','A port in Iloilo'],a:0,fb:'The Parian was associated with Manila’s Chinese community and commercial activity.'},
+  {q:'What did the secularization movement primarily concern?',opts:['The administration of parishes by secular clergy, including Filipino priests','The opening of Manila to foreign trade','The construction of sugar mills','The abolition of the galleon trade'],a:0,fb:'Secularization concerned whether parishes should be administered by secular priests rather than remaining under regular religious orders.'},
+  {q:'Which development helped foreign merchant houses establish a stronger presence in Manila?',opts:['The opening of Manila to world trade in 1834','The 1810 Mexican independence movement alone','The 1872 execution of Gomburza','The 1849 surname decree'],a:0,fb:'Manila’s 1834 opening to world trade facilitated greater foreign commercial participation.'},
+  {q:'What did the 1849 Catalogo de apellidos relate to?',opts:['The assignment and standardization of surnames','The opening of the Suez Canal','The creation of sugar plantations','The abolition of the Parian'],a:0,fb:'The 1849 Catalogo de apellidos was associated with the distribution and standardization of surnames.'},
+  {q:'Which statement best describes nineteenth-century Philippine economic change?',opts:['It combined expanding trade with uneven social and regional gains','It affected only Manila and not the provinces','It eliminated all social hierarchy','It stopped agricultural exports'],a:0,fb:'Economic growth expanded trade and opportunities, but its benefits were uneven across regions and social groups.'},
+  {q:'Which pair correctly matches a region with a major export activity?',opts:['Negros — sugar','Bicol — sugar as its only major export','Manila — abaca plantations only','Cebu — no participation in trade'],a:0,fb:'Negros became strongly associated with sugar production and export.'},
+  {q:'What helped some families move upward socially during the nineteenth century?',opts:['Economic success, education, and access to new commercial networks','Isolation from trade','The abolition of schools','Avoiding all commercial activity'],a:0,fb:'Economic resources, education, and commercial connections could support social mobility for some families.'},
+  {q:'What was one lasting legacy of the galleon trade after it ended?',opts:['A foundation of Manila’s earlier role in trans-Pacific commerce','The permanent closure of Manila to foreign ships','The end of all Chinese commercial activity','The disappearance of Manila as a trading center'],a:0,fb:'The galleon trade left a legacy of Manila’s role in trans-Pacific commerce even after the system ended.'},
+  {q:'Which development is most closely linked to the growth of export-oriented agriculture?',opts:['Rising overseas demand for Philippine products','The complete isolation of rural producers','The end of merchant credit','The closure of provincial ports'],a:0,fb:'Overseas demand encouraged producers and merchants to expand crops intended for export markets.'},
+  {q:'Which statement describes the nineteenth-century colonial social hierarchy?',opts:['It was layered, with legal and social distinctions linked to ancestry, status, and wealth','It treated every resident as socially equal','It was based only on occupation','It had no relationship to colonial administration'],a:0,fb:'Colonial society was layered, with distinctions involving ancestry, legal status, wealth, and local political position.'},
+  {q:'Which development helped create a more connected Philippine economy in the nineteenth century?',opts:['Foreign trade, port openings, and improved international routes','The permanent closure of provincial ports','The end of agricultural exports','The removal of merchant networks'],a:0,fb:'Port openings and improved international routes connected Philippine producers and merchants more closely to overseas markets.'}
+];
+
+function shuffleArray(arr){
+  const copy=[...arr];
+  for(let i=copy.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [copy[i],copy[j]]=[copy[j],copy[i]];
+  }
+  return copy;
+}
+
+// Every page load selects 15 different questions from the larger pool and shuffles them.
+let combinedQuiz = shuffleArray(combinedQuizPool).slice(0,15);
+
+
+let combinedQi=0, combinedScore=0;
+const combinedQuizBox=document.getElementById('quizBox');
+
+function renderCombinedQuiz(){
+  if(!combinedQuizBox) return;
+  if(combinedQi>=combinedQuiz.length){
+    combinedQuizBox.innerHTML=`
+      <div class="qresult">
+        <p>You scored</p>
+        <div class="score">${combinedScore} / ${combinedQuiz.length}</div>
+        <p>${combinedScore===combinedQuiz.length?'Excellent recall of the chapter.':combinedScore>=combinedQuiz.length/2?'Good start — revisit the Topics and Themes pages for the details.':'Review the Topics and Themes pages, then try again.'}</p>
+        <button class="btn" id="combinedRetake">Retake quiz</button>
+      </div>`;
+    document.getElementById('combinedRetake').onclick=()=>{combinedQi=0;combinedScore=0;combinedQuiz=shuffleArray(combinedQuizPool).slice(0,15);renderCombinedQuiz()};
+    return;
+  }
+  const item=combinedQuiz[combinedQi];
+  combinedQuizBox.innerHTML=`
+    <div class="qprog">Question ${combinedQi+1} of ${combinedQuiz.length} · Score ${combinedScore}</div>
+    <p class="qprompt">${item.q}</p>
+    <div class="qopts">${item.opts.map((o,i)=>`<button class="qopt" data-i="${i}">${o}</button>`).join('')}</div>
+    <div class="qfeedback"></div>`;
+  const opts=combinedQuizBox.querySelectorAll('.qopt');
+  opts.forEach(btn=>{
+    btn.onclick=()=>{
+      const chosen=Number(btn.dataset.i);
+      opts.forEach(x=>x.disabled=true);
+      if(chosen===item.a){btn.classList.add('correct');combinedScore++}
+      else{btn.classList.add('wrong');opts[item.a].classList.add('correct')}
+      combinedQuizBox.querySelector('.qfeedback').innerHTML=item.fb+`<div class="qnext"><button class="btn" id="combinedNext">${combinedQi+1<combinedQuiz.length?'Next question':'See results'}</button></div>`;
+      document.getElementById('combinedNext').onclick=()=>{combinedQi++;renderCombinedQuiz()};
+    };
+  });
+}
+renderCombinedQuiz();
+
+</script>
+
+</body>
+</html>
